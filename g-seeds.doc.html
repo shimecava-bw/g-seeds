@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>外国人材サポート AIシステムのご提案 — Global Seeds</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&family=Inter:wght@400;600;700;900&display=swap');
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --blue:#465DAA;--blue2:#3A4F96;--blue3:#5B6FBB;
+  --bluel:#EDF0F8;--blue05:#F4F6FB;
+  --teal:#20B2AA;--teall:#E6F7F6;
+  --red:#D93A49;--redl:#FDEDEF;
+  --yellow:#F5C400;--yellowl:#FFFBE6;
+  --text:#1C2B3A;--muted:#6B7A8D;
+  --border:#E0DDD5;--off:#F7F8FA;--white:#fff;
+}
+html,body{width:100%;height:100%;overflow:hidden;background:var(--white);font-family:'Noto Sans JP','Inter',sans-serif;color:var(--text)}
+#deck{width:100%;height:100vh;display:flex;transition:transform .5s cubic-bezier(.77,0,.175,1)}
+.slide{min-width:100vw;width:100vw;height:100vh;display:flex;flex-direction:column;position:relative;overflow:hidden;background:var(--white);padding:48px 140px 44px}
+
+/* ── ナビ ── */
+#nav{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:14px;z-index:100}
+.nb{width:34px;height:34px;border-radius:50%;border:1px solid var(--border);background:var(--white);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s}
+.nb:hover{background:var(--blue);border-color:var(--blue)}
+.nb:hover svg{stroke:#fff}
+.nb svg{stroke:var(--text);fill:none;width:14px;height:14px;stroke-linecap:round;stroke-linejoin:round}
+#ctr{font-size:11px;color:var(--muted);letter-spacing:.1em;min-width:44px;text-align:center;font-family:'Inter',sans-serif}
+#logo{position:fixed;top:20px;left:36px;z-index:100;font-size:11px;font-weight:700;color:var(--blue);letter-spacing:.16em;text-transform:uppercase;font-family:'Inter',sans-serif}
+.pg{position:absolute;bottom:20px;right:32px;font-size:10px;color:var(--border);letter-spacing:.08em;font-family:'Inter',sans-serif}
+
+/* ── 章番号背景 ── */
+.bg-num{position:absolute;top:-10px;left:80px;font-size:120px;font-weight:900;color:rgba(70,93,170,.06);line-height:1;font-family:'Inter',sans-serif;pointer-events:none;user-select:none}
+
+/* ── タイポ ── */
+.slide-title{font-size:36px;font-weight:900;color:var(--blue);line-height:1.2;margin-bottom:6px;position:relative;z-index:1}
+.slide-sub{font-size:17px;color:var(--muted);margin-bottom:16px;font-weight:400;position:relative;z-index:1}
+.yellow-line{width:48px;height:4px;background:var(--yellow);border-radius:2px;margin-bottom:20px}
+
+/* ── グリッド ── */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+
+/* ── カード ── */
+.card{background:var(--white);border:1px solid var(--border);border-radius:10px;padding:24px}
+.card-blue{background:var(--bluel);border:1px solid rgba(70,93,170,.2);border-radius:10px;padding:24px}
+.card-teal{background:var(--teall);border:1px solid rgba(32,178,170,.2);border-radius:10px;padding:24px}
+.card-red{background:var(--redl);border:1px solid rgba(217,58,73,.15);border-radius:10px;padding:24px}
+.card-yellow{background:var(--yellowl);border:1px solid rgba(245,196,0,.3);border-radius:10px;padding:24px}
+
+/* ── テーブル ── */
+.tbl{width:100%;border-collapse:collapse}
+.tbl th{background:var(--blue);color:#fff;padding:11px 16px;text-align:left;font-weight:600;font-size:14px}
+.tbl th:first-child{border-radius:6px 0 0 0}
+.tbl th:last-child{border-radius:0 6px 0 0}
+.tbl td{padding:11px 16px;border-bottom:1px solid var(--off);font-size:15px}
+.tbl tr:last-child td{border-bottom:none}
+.tbl tr:nth-child(even) td{background:var(--off)}
+
+/* ── リスト ── */
+.ri{display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:1px solid var(--off)}
+.ri:last-child{border-bottom:none}
+.dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;margin-top:7px}
+
+/* ── バッジ ── */
+.badge{display:inline-block;padding:3px 10px;border-radius:4px;font-size:12px;font-weight:700}
+.badge-yellow{background:var(--yellow);color:var(--text)}
+.badge-blue{background:var(--blue);color:#fff}
+.badge-teal{background:var(--teall);color:#0E7A76}
+.badge-red{background:var(--redl);color:#A12233}
+
+/* ── Callout ── */
+.callout{border-left:4px solid var(--blue);background:var(--bluel);padding:14px 20px;border-radius:0 8px 8px 0;font-size:15px;line-height:1.7}
+
+/* ── 料金カード ── */
+.pc{background:var(--white);border:1.5px solid var(--border);border-radius:12px;padding:28px 22px;display:flex;flex-direction:column}
+.pc.feat{border:2.5px solid var(--blue);position:relative}
+.pf{position:absolute;top:-13px;left:50%;transform:translateX(-50%);background:var(--yellow);color:var(--text);font-size:11px;font-weight:700;padding:3px 14px;border-radius:100px;white-space:nowrap}
+.pn{font-size:38px;font-weight:900;color:var(--blue);line-height:1;font-family:'Inter',sans-serif}
+.pu{font-size:12px;color:var(--muted);margin:4px 0 18px}
+.pr{font-size:15px;padding:7px 0;border-bottom:1px solid var(--off);display:flex;gap:8px;align-items:center}
+.pr:last-child{border-bottom:none}
+.ok{color:var(--teal);font-weight:700;font-size:13px}
+.ng{color:var(--border);font-weight:700;font-size:12px}
+
+/* ── 目次 ── */
+.toc-item{display:flex;align-items:center;gap:20px;padding:12px 0;border-bottom:1px solid var(--off);cursor:pointer;transition:background .15s;border-radius:4px;padding-left:8px}
+.toc-item:hover{background:var(--off)}
+.toc-num{font-size:13px;font-weight:700;color:var(--blue);min-width:30px;font-family:'Inter',sans-serif}
+.toc-text{font-size:17px;color:var(--text)}
+
+/* ── ORG ── */
+.on{background:var(--white);border:1px solid var(--border);border-radius:10px;padding:18px;text-align:center;min-width:150px}
+.oc{width:150px;height:150px;border-radius:50%;background:var(--blue);display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;text-align:center;flex-shrink:0}
+
+/* ── 統計数字 ── */
+.stat-num{font-size:80px;font-weight:900;line-height:1;font-family:'Inter',sans-serif;color:var(--blue)}
+.stat-num-white{font-size:80px;font-weight:900;line-height:1;font-family:'Inter',sans-serif;color:#fff}
+
+/* ── 赤ラベル ── */
+.red-label{background:var(--red);color:#fff;font-size:16px;font-weight:700;padding:6px 16px;border-radius:4px;display:inline-block;margin-bottom:16px}
+</style>
+</head>
+<body>
+<div id="logo">Global Seeds</div>
+<div id="deck">
+
+<!-- ══ S1: 表紙 ══ -->
+<section class="slide" style="justify-content:center">
+  <div style="position:absolute;top:0;left:0;width:8px;height:100%;background:var(--blue)"></div>
+  <div style="position:absolute;top:0;right:0;width:360px;height:100%;background:var(--blue05)"></div>
+  <div style="position:relative;z-index:1;max-width:640px">
+    <div style="background:var(--yellow);display:inline-block;padding:4px 12px;font-size:12px;font-weight:700;margin-bottom:32px">事業提案書 2025</div>
+    <h1 style="font-size:52px;font-weight:900;line-height:1.1;color:var(--text);margin-bottom:16px">外国人材サポート<br><span style="color:var(--blue)">AIシステムのご提案</span></h1>
+    <div style="width:56px;height:4px;background:var(--yellow);border-radius:2px;margin-bottom:24px"></div>
+    <p style="font-size:18px;color:var(--muted);line-height:1.8;margin-bottom:40px">AI × 行政書士の力で、定着・育成・法務を<br>一気通貫でサポートいたします。</p>
+    <div style="display:flex;gap:10px;flex-wrap:wrap">
+      <div style="padding:8px 16px;border:1.5px solid var(--blue);border-radius:4px;font-size:13px;color:var(--blue);font-weight:500">AI多言語サポート 24時間365日</div>
+      <div style="padding:8px 16px;border:1.5px solid var(--blue);border-radius:4px;font-size:13px;color:var(--blue);font-weight:500">行政書士による法務監督</div>
+      <div style="padding:8px 16px;border:1.5px solid var(--blue);border-radius:4px;font-size:13px;color:var(--blue);font-weight:500">座学プログラム（オプション）</div>
+    </div>
+  </div>
+  <div style="position:absolute;bottom:36px;right:48px;font-size:11px;color:var(--muted)">Global Seeds（仮称）</div>
+  <span class="pg">01 / 18</span>
+</section>
+
+<!-- ══ S2: 目次 ══ -->
+<section class="slide">
+  <div class="bg-num">00</div>
+  <div class="slide-title">目次</div>
+  <div class="yellow-line"></div>
+  <div class="g2" style="flex:1;align-content:start;gap:0 60px">
+    <div>
+      <div class="toc-item" onclick="go(2)"><span class="toc-num">01</span><span class="toc-text">なぜ今、外国人材支援が必要か（企業の課題）</span></div>
+      <div class="toc-item" onclick="go(3)"><span class="toc-num">02</span><span class="toc-text">なぜ今、外国人材支援が必要か（外国人材の課題）</span></div>
+      <div class="toc-item" onclick="go(4)"><span class="toc-num">03</span><span class="toc-text">現行モデルとの比較</span></div>
+      <div class="toc-item" onclick="go(5)"><span class="toc-num">04</span><span class="toc-text">ソリューション概要 — 3本柱のモデル</span></div>
+      <div class="toc-item" onclick="go(6)"><span class="toc-num">05</span><span class="toc-text">AIサポートシステム — 機能一覧</span></div>
+      <div class="toc-item" onclick="go(7)"><span class="toc-num">06</span><span class="toc-text">AIサポートシステム — リスク管理機能</span></div>
+      <div class="toc-item" onclick="go(8)"><span class="toc-num">07</span><span class="toc-text">AI × 行政書士 ハイブリッド体制</span></div>
+      <div class="toc-item" onclick="go(9)"><span class="toc-num">08</span><span class="toc-text">外国人受入の法的リスクを管理</span></div>
+    </div>
+    <div>
+      <div class="toc-item" onclick="go(10)"><span class="toc-num">09</span><span class="toc-text">座学プログラム（オプション）</span></div>
+      <div class="toc-item" onclick="go(11)"><span class="toc-num">10</span><span class="toc-text">料金プラン</span></div>
+      <div class="toc-item" onclick="go(12)"><span class="toc-num">11</span><span class="toc-text">助成金活用と導入特典</span></div>
+      <div class="toc-item" onclick="go(13)"><span class="toc-num">12</span><span class="toc-text">導入後のROI・効果試算</span></div>
+      <div class="toc-item" onclick="go(14)"><span class="toc-num">13</span><span class="toc-text">導入ロードマップ</span></div>
+      <div class="toc-item" onclick="go(15)"><span class="toc-num">14</span><span class="toc-text">長期ライフサイクルと定着支援</span></div>
+      <div class="toc-item" onclick="go(16)"><span class="toc-num">15</span><span class="toc-text">運営体制・パートナー</span></div>
+      <div class="toc-item" onclick="go(17)"><span class="toc-num">　</span><span class="toc-text">お問い合わせ</span></div>
+    </div>
+  </div>
+  <span class="pg">02 / 18</span>
+</section>
+
+<!-- ══ S3: 課題（企業） ══ -->
+<section class="slide">
+  <div class="bg-num">01</div>
+  <div class="slide-title">なぜ今、外国人材支援が必要か①</div>
+  <div class="slide-sub">企業側の課題</div>
+  <div class="yellow-line"></div>
+  <div class="g2" style="flex:1;gap:28px">
+    <div style="display:flex;flex-direction:column;justify-content:center;gap:20px">
+      <div style="display:flex;gap:20px">
+        <div style="flex:1;background:var(--blue);border-radius:12px;padding:24px;text-align:center">
+          <div class="stat-num-white">68%</div>
+          <div style="font-size:15px;color:rgba(255,255,255,.85);margin-top:8px;line-height:1.5">外国人材の<br>早期離職率（1年以内）</div>
+        </div>
+        <div style="flex:1;background:var(--blue);border-radius:12px;padding:24px;text-align:center">
+          <div class="stat-num-white">80%</div>
+          <div style="font-size:15px;color:rgba(255,255,255,.85);margin-top:8px;line-height:1.5">受入企業が「支援に<br>手が回らない」と回答</div>
+        </div>
+      </div>
+      <div style="background:var(--yellowl);border-left:4px solid var(--yellow);padding:16px 20px;border-radius:0 8px 8px 0;flex:1">
+        <div style="font-size:16px;font-weight:700;color:var(--text)">採用コスト 約80万円/名</div>
+        <div style="font-size:15px;color:var(--muted);margin-top:4px">入社3ヶ月で離職されると回収不能になります</div>
+      </div>
+    </div>
+    <div class="card-red" style="display:flex;flex-direction:column;justify-content:center">
+      <div class="red-label">企業側の課題</div>
+      <div class="ri"><div class="dot" style="background:var(--red)"></div><div><div style="font-size:17px;font-weight:600;margin-bottom:3px">言葉の壁による現場の混乱</div><div style="font-size:14px;color:var(--muted)">指示の不徹底・クレーム対応困難・生産性低下</div></div></div>
+      <div class="ri"><div class="dot" style="background:var(--red)"></div><div><div style="font-size:17px;font-weight:600;margin-bottom:3px">早期離職・ミスマッチ</div><div style="font-size:14px;color:var(--muted)">採用コストが回収できないまま再採用が続く</div></div></div>
+      <div class="ri"><div class="dot" style="background:var(--red)"></div><div><div style="font-size:17px;font-weight:600;margin-bottom:3px">ビザ管理の煩雑さ</div><div style="font-size:14px;color:var(--muted)">在留資格更新・変更の手続きが担当者に集中</div></div></div>
+      <div class="ri"><div class="dot" style="background:var(--red)"></div><div><div style="font-size:17px;font-weight:600;margin-bottom:3px">現場スタッフの疲弊</div><div style="font-size:14px;color:var(--muted)">既存社員のモチベーション低下・離職連鎖</div></div></div>
+    </div>
+  </div>
+  <span class="pg">03 / 18</span>
+</section>
+
+<!-- ══ S4: 課題（外国人材） ══ -->
+<section class="slide">
+  <div class="bg-num">02</div>
+  <div class="slide-title">なぜ今、外国人材支援が必要か②</div>
+  <div class="slide-sub">外国人材側の課題</div>
+  <div class="yellow-line"></div>
+  <div class="g2" style="flex:1;gap:28px">
+    <div class="card-red" style="display:flex;flex-direction:column;justify-content:center">
+      <div class="red-label">外国人材側の課題</div>
+      <div class="ri"><div class="dot" style="background:var(--red)"></div><div><div style="font-size:17px;font-weight:600;margin-bottom:3px">生活ルールがわからない</div><div style="font-size:14px;color:var(--muted)">ゴミ・銀行・行政手続きが母国語で案内されない</div></div></div>
+      <div class="ri"><div class="dot" style="background:var(--red)"></div><div><div style="font-size:17px;font-weight:600;margin-bottom:3px">孤立・失踪リスク</div><div style="font-size:14px;color:var(--muted)">精神的不安定による早期離職・最悪の場合失踪</div></div></div>
+      <div class="ri"><div class="dot" style="background:var(--red)"></div><div><div style="font-size:17px;font-weight:600;margin-bottom:3px">悪質ブローカーによる搾取</div><div style="font-size:14px;color:var(--muted)">不当な費用請求・情報格差による被害</div></div></div>
+      <div class="ri"><div class="dot" style="background:var(--red)"></div><div><div style="font-size:17px;font-weight:600;margin-bottom:3px">キャリアの見通しがない</div><div style="font-size:14px;color:var(--muted)">特定技能→永住への道筋が見えず働く動機を失う</div></div></div>
+    </div>
+    <div style="display:flex;flex-direction:column;justify-content:center;gap:16px;height:100%">
+      <div style="background:var(--blue);border-radius:12px;padding:20px 28px;text-align:center">
+        <div style="font-size:17px;font-weight:700;color:rgba(255,255,255,.7);margin-bottom:12px">外国人材が定着しない本当の理由</div>
+        <div style="font-size:22px;font-weight:700;color:#fff;line-height:1.6">「助けを求める場所がない」<br>「先が見えない」</div>
+      </div>
+      <div class="callout">
+        企業側・外国人材側、<strong>双方の課題を同時に解決する</strong>仕組みが必要です。
+      </div>
+    </div>
+  </div>
+  <span class="pg">04 / 18</span>
+</section>
+
+<!-- ══ S5: 現行モデル比較 ══ -->
+<section class="slide">
+  <div class="bg-num">03</div>
+  <div class="slide-title">現行モデルとの比較</div>
+  <div class="slide-sub">人が増えるほど、管理コストが膨らんでいませんか？</div>
+  <div class="yellow-line"></div>
+  <div style="display:grid;grid-template-columns:1fr 60px 1fr;gap:0;align-items:center;flex:1">
+    <div class="card" style="height:100%;display:flex;flex-direction:column;justify-content:center">
+      <div style="font-size:22px;font-weight:900;color:var(--text);margin-bottom:16px;padding-bottom:12px;border-bottom:3px solid var(--border)">既存モデル（人力中心）</div>
+      <div class="ri"><div class="dot" style="background:var(--red)"></div><div><div style="font-size:17px;font-weight:600;margin-bottom:3px">24時間対応が困難</div><div style="font-size:14px;color:var(--muted)">担当者個人に依存、深夜・休日は対応不可</div></div></div>
+      <div class="ri"><div class="dot" style="background:var(--red)"></div><div><div style="font-size:17px;font-weight:600;margin-bottom:3px">スケールでコスト増大</div><div style="font-size:14px;color:var(--muted)">20名→100名に増えると管理コストが比例増</div></div></div>
+      <div class="ri"><div class="dot" style="background:var(--red)"></div><div><div style="font-size:17px;font-weight:600;margin-bottom:3px">法務対応にばらつき</div><div style="font-size:14px;color:var(--muted)">専門家不在で制度対応が属人化・リスク放置</div></div></div>
+      <div class="ri"><div class="dot" style="background:var(--red)"></div><div><div style="font-size:17px;font-weight:600;margin-bottom:3px">教育・育成が別途必要</div><div style="font-size:14px;color:var(--muted)">日本語・マナー研修は自社で別途手配が必要</div></div></div>
+    </div>
+    <div style="display:flex;align-items:center;justify-content:center">
+      <div style="width:40px;height:40px;border-radius:50%;border:1.5px solid var(--border);background:var(--off);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:var(--muted)">VS</div>
+    </div>
+    <div class="card-teal" style="height:100%;display:flex;flex-direction:column;justify-content:center">
+      <div style="font-size:22px;font-weight:900;color:var(--blue);margin-bottom:16px;padding-bottom:12px;border-bottom:3px solid rgba(70,93,170,.25)">Global Seeds（AI＋行政書士）</div>
+      <div class="ri"><div class="dot" style="background:var(--teal)"></div><div><div style="font-size:17px;font-weight:600;margin-bottom:3px">24時間AIが自動対応</div><div style="font-size:14px;color:var(--muted)">多言語AIが365日休まず外国人材をサポート</div></div></div>
+      <div class="ri"><div class="dot" style="background:var(--teal)"></div><div><div style="font-size:17px;font-weight:600;margin-bottom:3px">管理コストほぼ固定</div><div style="font-size:14px;color:var(--muted)">20名でも100名でも固定費は変わらない設計</div></div></div>
+      <div class="ri"><div class="dot" style="background:var(--teal)"></div><div><div style="font-size:17px;font-weight:600;margin-bottom:3px">行政書士が常時監督</div><div style="font-size:14px;color:var(--muted)">月額顧問で法的リスクを専門家が継続管理</div></div></div>
+      <div class="ri"><div class="dot" style="background:var(--teal)"></div><div><div style="font-size:17px;font-weight:600;margin-bottom:3px">座学プログラム一体化</div><div style="font-size:14px;color:var(--muted)">日本語・マナー・職場ルールまでパッケージ提供</div></div></div>
+    </div>
+  </div>
+  <span class="pg">05 / 18</span>
+</section>
+
+<!-- ══ S6: ソリューション概要 ══ -->
+<section class="slide">
+  <div class="bg-num">04</div>
+  <div class="slide-title">ソリューション概要</div>
+  <div class="slide-sub">採用から定着まで、一貫してサポートいたします。</div>
+  <div class="yellow-line"></div>
+  <!-- フロー -->
+  <div style="display:flex;align-items:stretch;gap:0;height:72px;margin-bottom:48px;flex-shrink:0">
+    <div style="flex:1;background:#A8B8D8;border-radius:8px 0 0 8px;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff">
+      <div style="font-size:10px;opacity:.85;margin-bottom:3px;font-family:'Inter',sans-serif;letter-spacing:.1em">STEP 1</div>
+      <div style="font-size:16px;font-weight:700">人材紹介</div>
+    </div>
+    <div style="width:0;height:0;border-top:36px solid transparent;border-bottom:36px solid transparent;border-left:16px solid #A8B8D8;flex-shrink:0"></div>
+    <div style="flex:1;background:#6B84C0;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff">
+      <div style="font-size:10px;opacity:.85;margin-bottom:3px;font-family:'Inter',sans-serif;letter-spacing:.1em">STEP 2</div>
+      <div style="font-size:16px;font-weight:700">法的手続き</div>
+    </div>
+    <div style="width:0;height:0;border-top:36px solid transparent;border-bottom:36px solid transparent;border-left:16px solid #6B84C0;flex-shrink:0"></div>
+    <div style="flex:1;background:var(--blue);display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff">
+      <div style="font-size:10px;opacity:.85;margin-bottom:3px;font-family:'Inter',sans-serif;letter-spacing:.1em">STEP 3</div>
+      <div style="font-size:16px;font-weight:700">教育・支援</div>
+    </div>
+    <div style="width:0;height:0;border-top:36px solid transparent;border-bottom:36px solid transparent;border-left:16px solid var(--blue);flex-shrink:0"></div>
+    <div style="flex:1;background:var(--yellow);border-radius:0 8px 8px 0;display:flex;flex-direction:column;align-items:center;justify-content:center">
+      <div style="font-size:10px;opacity:.6;margin-bottom:3px;font-family:'Inter',sans-serif;letter-spacing:.1em;color:var(--text)">GOAL</div>
+      <div style="font-size:16px;font-weight:700;color:var(--text)">定着・戦力化</div>
+    </div>
+  </div>
+  <!-- 3本柱 -->
+  <div class="g3" style="flex:1;align-items:start;align-content:start">
+    <div class="card" style="border-top:5px solid var(--blue);padding:18px 20px">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
+        <div style="background:var(--blue);color:#fff;font-size:11px;font-weight:700;padding:3px 10px;border-radius:4px;font-family:'Inter',sans-serif">PILLAR 01</div>
+      </div>
+      <div style="font-size:20px;font-weight:700;color:var(--blue);margin-bottom:10px">AIサポートシステム</div>
+      <div style="font-size:14px;color:var(--muted);line-height:1.6">LINE × 多言語AIで生活・業務の困りごとを24時間自動解決。失踪・離職兆候を早期検知。</div>
+    </div>
+    <div class="card" style="border-top:5px solid var(--blue);padding:18px 20px">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
+        <div style="background:var(--blue);color:#fff;font-size:11px;font-weight:700;padding:3px 10px;border-radius:4px;font-family:'Inter',sans-serif">PILLAR 02</div>
+      </div>
+      <div style="font-size:20px;font-weight:700;color:var(--blue);margin-bottom:10px">行政書士 法務サポート</div>
+      <div style="font-size:14px;color:var(--muted);line-height:1.6">ビザ・在留資格申請からコンプライアンス監査・法的相談まで専門家が月額顧問で対応。</div>
+    </div>
+    <div class="card" style="border-top:5px solid var(--muted);padding:18px 20px">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
+        <div style="background:var(--muted);color:#fff;font-size:11px;font-weight:700;padding:3px 10px;border-radius:4px;font-family:'Inter',sans-serif">PILLAR 03 — OPTION</div>
+      </div>
+      <div style="font-size:20px;font-weight:700;color:var(--muted);margin-bottom:10px">座学プログラム</div>
+      <div style="font-size:14px;color:var(--muted);line-height:1.6">日本語検定対策・社会マナー・職場ルール・キャリア設計をオンラインで定期実施。</div>
+    </div>
+  </div>
+  <span class="pg">06 / 18</span>
+</section>
+
+<!-- ══ S7: AI機能① ══ -->
+<section class="slide">
+  <div class="bg-num">05</div>
+  <div class="slide-title">AIサポートシステム — 機能一覧</div>
+  <div class="slide-sub">深夜でも休日でも、外国人スタッフの困りごとにAIが対応します。</div>
+  <div class="yellow-line"></div>
+  <div class="g2" style="flex:1;gap:16px;align-items:start;align-content:start">
+    <div class="card" style="border-left:4px solid var(--blue);padding:18px 20px">
+      <div style="font-size:13px;font-weight:700;color:var(--blue);margin-bottom:6px;letter-spacing:.05em">FEATURE 01</div>
+      <div style="font-size:20px;font-weight:700;margin-bottom:10px">多言語AIチャット</div>
+      <div style="font-size:14px;color:var(--muted);line-height:1.6">母国語でゴミ・病院・行政手続きを即答。自治体ごとのローカル情報をAIが学習・更新。</div>
+      <div style="margin-top:8px"><span class="badge badge-teal" style="font-size:14px;padding:5px 12px">担当者への問い合わせゼロ</span></div>
+    </div>
+    <div class="card" style="border-left:4px solid var(--blue);padding:18px 20px">
+      <div style="font-size:13px;font-weight:700;color:var(--blue);margin-bottom:6px;letter-spacing:.05em">FEATURE 02</div>
+      <div style="font-size:20px;font-weight:700;margin-bottom:10px">緊急SOSボタン</div>
+      <div style="font-size:14px;color:var(--muted);line-height:1.6">体調不良・トラブルをワンタップで担当者・行政書士に即時通知。エスカレーション自動起動。</div>
+      <div style="margin-top:8px"><span class="badge badge-teal" style="font-size:14px;padding:5px 12px">緊急時の迅速対応</span></div>
+    </div>
+    <div class="card" style="border-left:4px solid var(--blue);padding:18px 20px">
+      <div style="font-size:13px;font-weight:700;color:var(--blue);margin-bottom:6px;letter-spacing:.05em">FEATURE 03</div>
+      <div style="font-size:20px;font-weight:700;margin-bottom:10px">学習管理ダッシュボード</div>
+      <div style="font-size:14px;color:var(--muted);line-height:1.6">日本語学習の進捗・出席率・試験スコアをリアルタイムで一元管理・可視化。</div>
+      <div style="margin-top:8px"><span class="badge badge-teal" style="font-size:14px;padding:5px 12px">育成状況の見える化</span></div>
+    </div>
+    <div class="card" style="border-left:4px solid var(--blue);padding:18px 20px">
+      <div style="font-size:13px;font-weight:700;color:var(--blue);margin-bottom:6px;letter-spacing:.05em">FEATURE 04</div>
+      <div style="font-size:20px;font-weight:700;margin-bottom:10px">属性別LINEリッチメニュー</div>
+      <div style="font-size:14px;color:var(--muted);line-height:1.6">外国人材・企業担当者・行政書士それぞれに最適化したメニューを自動表示。</div>
+      <div style="margin-top:8px"><span class="badge badge-teal" style="font-size:14px;padding:5px 12px">導入初日から使いこなせる</span></div>
+    </div>
+  </div>
+  <div style="margin-top:16px;background:var(--blue);border-radius:8px;padding:18px 24px;font-size:20px;font-weight:900;color:#fff;text-align:center">
+    20名、100名と増えても <span style="color:var(--yellow)">管理コストが増大しない仕組み</span> です。
+  </div>
+  <span class="pg">07 / 18</span>
+</section>
+
+<!-- ══ S8: AI機能② ══ -->
+<section class="slide">
+  <div class="bg-num">06</div>
+  <div class="slide-title">AIサポートシステム — リスク管理機能</div>
+  <div class="slide-sub">失踪・不法就労・離職。3つのリスクを構造的に排除します。</div>
+  <div class="yellow-line"></div>
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;align-items:stretch">
+    <div class="card" style="border-top:5px solid var(--red)">
+      <div style="background:var(--red);color:#fff;font-size:11px;font-weight:700;padding:3px 10px;border-radius:4px;display:inline-block;margin-bottom:12px">RISK 01</div>
+      <div style="font-size:20px;font-weight:700;margin-bottom:10px">失踪・離職予兆アラート</div>
+      <div style="font-size:15px;color:var(--muted);line-height:1.7;margin-bottom:14px">感情解析（Sentiment Analysis）でチャット内容を分析。孤立・不満・失踪リスクを早期検知し、行政書士が介入。</div>
+      <span class="badge badge-red">最悪リスクを構造的に排除</span>
+    </div>
+    <div class="card" style="border-top:5px solid var(--red);padding:18px 20px">
+      <div style="background:var(--red);color:#fff;font-size:11px;font-weight:700;padding:3px 10px;border-radius:4px;display:inline-block;margin-bottom:10px">RISK 02</div>
+      <div style="font-size:20px;font-weight:700;margin-bottom:8px">在留期限アラート</div>
+      <div style="font-size:14px;color:var(--muted);line-height:1.6;margin-bottom:10px">更新申請時期を多言語で自動リマインド。在留カードICチップ二重確認で不法就労を構造的にゼロへ。</div>
+      <span class="badge badge-red">コンプライアンスリスク排除</span>
+    </div>
+    <div class="card-blue" style="padding:18px 20px">
+      <div style="background:var(--blue);color:#fff;font-size:11px;font-weight:700;padding:3px 10px;border-radius:4px;display:inline-block;margin-bottom:10px">対応フロー</div>
+      <div style="font-size:17px;font-weight:700;margin-bottom:12px;color:var(--blue)">アラート発生時の流れ</div>
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <div style="display:flex;align-items:center;gap:10px">
+          <div style="width:28px;height:28px;border-radius:50%;background:var(--blue);color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0">1</div>
+          <div style="font-size:14px">AIがリスクを検知・スコア算出</div>
+        </div>
+        <div style="width:2px;height:14px;background:var(--border);margin-left:14px"></div>
+        <div style="display:flex;align-items:center;gap:10px">
+          <div style="width:28px;height:28px;border-radius:50%;background:var(--blue);color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0">2</div>
+          <div style="font-size:14px">担当者・行政書士に即時通知</div>
+        </div>
+        <div style="width:2px;height:14px;background:var(--border);margin-left:14px"></div>
+        <div style="display:flex;align-items:center;gap:10px">
+          <div style="width:28px;height:28px;border-radius:50%;background:var(--teal);color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0">3</div>
+          <div style="font-size:14px">行政書士が法的観点から介入・対応</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <span class="pg">08 / 18</span>
+</section>
+
+<!-- ══ S9: ハイブリッド ══ -->
+<section class="slide" style="padding-top:36px;padding-bottom:36px">
+  <div class="bg-num">07</div>
+  <div class="slide-title">AI × 行政書士 ハイブリッド体制</div>
+  <div class="slide-sub">日常対応はAI、法的な判断は行政書士が担います。</div>
+  <div class="yellow-line"></div>
+  <!-- 中央フロー -->
+  <div style="display:flex;justify-content:center;margin-bottom:4px;flex-shrink:0">
+    <div style="background:var(--blue);border-radius:8px;padding:8px 28px;color:#fff;font-size:14px;font-weight:700">外国人スタッフからの相談・問い合わせ</div>
+  </div>
+  <div style="display:flex;justify-content:center;margin-bottom:6px;flex-shrink:0">
+    <div style="width:2px;height:12px;background:var(--blue)"></div>
+  </div>
+  <div style="display:flex;justify-content:center;margin-bottom:6px;flex-shrink:0">
+    <div style="background:var(--yellow);border-radius:8px;padding:10px 32px;font-size:15px;font-weight:700;color:var(--text)">LINE × AI が24時間自動対応</div>
+  </div>
+  <!-- 分岐 -->
+  <div style="display:flex;justify-content:center;gap:200px;margin-bottom:8px;position:relative;flex-shrink:0">
+    <div style="width:2px;height:16px;background:var(--teal)"></div>
+    <div style="width:2px;height:16px;background:var(--blue)"></div>
+    <div style="position:absolute;top:8px;left:50%;transform:translateX(-50%);width:200px;height:1px;background:var(--border)"></div>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:start">
+    <div class="card-teal">
+      <div style="border:1.5px solid var(--teal);border-radius:4px;padding:5px 14px;font-size:13px;font-weight:700;color:var(--teal);display:inline-block;margin-bottom:14px">AI が解決する領域</div>
+      <div class="ri"><div class="dot" style="background:var(--teal)"></div><div><div style="font-size:16px;font-weight:600;margin-bottom:2px">生活FAQ・多言語自動回答</div><div style="font-size:14px;color:var(--muted)">ゴミ・行政・病院など日常の疑問を即時解決</div></div></div>
+      <div class="ri"><div class="dot" style="background:var(--teal)"></div><div><div style="font-size:16px;font-weight:600;margin-bottom:2px">定型書類の一次チェック</div><div style="font-size:14px;color:var(--muted)">在留カード・雇用契約書などの情報整理を自動化</div></div></div>
+      <div class="ri"><div class="dot" style="background:var(--teal)"></div><div><div style="font-size:16px;font-weight:600;margin-bottom:2px">在留期限アラート・リマインド</div><div style="font-size:14px;color:var(--muted)">更新申請の期限を自動通知。人的見落としを排除</div></div></div>
+      <div class="ri"><div class="dot" style="background:var(--teal)"></div><div><div style="font-size:16px;font-weight:600;margin-bottom:2px">感情解析・失踪予兆検知</div><div style="font-size:14px;color:var(--muted)">チャット頻度・感情スコアから早期にリスクを算出</div></div></div>
+    </div>
+    <div class="card-blue">
+      <div style="border:1.5px solid var(--blue);border-radius:4px;padding:5px 14px;font-size:13px;font-weight:700;color:var(--blue);display:inline-block;margin-bottom:14px">行政書士 が対応する領域</div>
+      <div class="ri"><div class="dot" style="background:var(--blue)"></div><div><div style="font-size:16px;font-weight:600;margin-bottom:2px">在留資格申請・更新の実務</div><div style="font-size:14px;color:var(--muted)">認定・変更・更新申請を確実に遂行。不許可リスク管理</div></div></div>
+      <div class="ri"><div class="dot" style="background:var(--blue)"></div><div><div style="font-size:16px;font-weight:600;margin-bottom:2px">コンプライアンス監査・指導</div><div style="font-size:14px;color:var(--muted)">不法就労防止体制・36協定・就業規則を定期監査</div></div></div>
+      <div class="ri"><div class="dot" style="background:var(--blue)"></div><div><div style="font-size:16px;font-weight:600;margin-bottom:2px">法的相談への高度対応</div><div style="font-size:14px;color:var(--muted)">AIがエスカレーションした案件を法的観点から即時判断</div></div></div>
+      <div class="ri"><div class="dot" style="background:var(--blue)"></div><div><div style="font-size:16px;font-weight:600;margin-bottom:2px">10年キャリアパス設計</div><div style="font-size:14px;color:var(--muted)">技能実習→特定技能1号→2号→永住まで制度面から伴走</div></div></div>
+    </div>
+  </div>
+  <span class="pg">09 / 18</span>
+</section>
+
+<!-- ══ S10: 法的リスク管理 ══ -->
+<section class="slide">
+  <div class="bg-num">08</div>
+  <div class="slide-title">外国人受入の法的リスクを管理</div>
+  <div class="slide-sub">在留資格・労働法・財務要件を行政書士が継続監査し、法的リスクを排除します。</div>
+  <div class="yellow-line"></div>
+  <div class="g2" style="flex:1;gap:32px;align-items:center">
+    <table class="tbl">
+      <tr><th>管理項目</th><th>内容</th></tr>
+      <tr><td><strong>不法就労防止</strong></td><td>在留カードICチップ確認・二重チェック体制の整備</td></tr>
+      <tr><td><strong>返金保証規定</strong></td><td>早期離職時の費用返還ルールの明文化</td></tr>
+      <tr><td><strong>定期コンプライアンス監査</strong></td><td>行政書士による定期的な法令順守状況の確認</td></tr>
+      <tr><td><strong>労働法・入管法の準拠</strong></td><td>労働基準法・出入国管理法への準拠状況を記録</td></tr>
+      <tr><td><strong>財務要件の維持</strong></td><td>許認可維持に必要な基準資産500万円の継続充足</td></tr>
+    </table>
+    <div style="display:flex;flex-direction:column;align-items:center;gap:24px">
+      <div style="width:210px;height:210px;border-radius:50%;border:5px solid var(--blue);background:var(--bluel);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:20px">
+        <div style="width:3px;height:32px;background:var(--yellow);border-radius:2px;margin-bottom:12px"></div>
+        <div style="font-size:17px;font-weight:700;color:var(--blue);line-height:1.4">行政書士による<br>法的リスク管理</div>
+        <div style="font-size:13px;color:var(--muted);margin-top:6px">適正受入企業の証明</div>
+        <div style="width:3px;height:32px;background:var(--yellow);border-radius:2px;margin-top:12px"></div>
+      </div>
+      <div style="text-align:center">
+        <div style="font-size:15px;font-weight:700;color:var(--blue);margin-bottom:6px">第三者が証明することで</div>
+        <div style="font-size:14px;color:var(--muted);line-height:1.7">求職者・送り出し機関からの信頼獲得、<br>採用力の向上につながります。</div>
+      </div>
+    </div>
+  </div>
+  <span class="pg">10 / 18</span>
+</section>
+
+<!-- ══ S11: 座学 ══ -->
+<section class="slide">
+  <div class="bg-num">09</div>
+  <div class="slide-title">座学プログラム（オプション）</div>
+  <div class="slide-sub">日本語・マナー・職場ルールを定期的にサポートします。</div>
+  <div class="yellow-line"></div>
+  <div class="g4" style="align-items:start">
+    <div class="card" style="border-top:5px solid var(--blue);padding:18px 16px">
+      <div style="background:var(--blue);color:#fff;font-size:11px;font-weight:700;padding:3px 10px;border-radius:4px;display:inline-block;margin-bottom:10px">CATEGORY 01</div>
+      <div style="font-size:19px;font-weight:700;color:var(--blue);margin-bottom:14px">日本語教育</div>
+      <div class="ri" style="padding:7px 0"><div class="dot" style="background:var(--teal);margin-top:7px"></div><div style="font-size:15px;color:var(--muted)">JLPT N4→N3対策</div></div>
+      <div class="ri" style="padding:7px 0"><div class="dot" style="background:var(--teal);margin-top:7px"></div><div style="font-size:15px;color:var(--muted)">業種別現場日本語</div></div>
+      <div class="ri" style="padding:7px 0;border-bottom:none"><div class="dot" style="background:var(--teal);margin-top:7px"></div><div style="font-size:15px;color:var(--muted)">ビジネス敬語・電話対応</div></div>
+      <div style="margin-top:14px"><span class="badge badge-teal">週1回オンライン</span></div>
+    </div>
+    <div class="card" style="border-top:5px solid var(--blue);padding:18px 16px">
+      <div style="background:var(--blue);color:#fff;font-size:11px;font-weight:700;padding:3px 10px;border-radius:4px;display:inline-block;margin-bottom:10px">CATEGORY 02</div>
+      <div style="font-size:19px;font-weight:700;color:var(--blue);margin-bottom:14px">社会ルール・マナー</div>
+      <div class="ri" style="padding:7px 0"><div class="dot" style="background:var(--teal);margin-top:7px"></div><div style="font-size:15px;color:var(--muted)">ゴミ分別・住居マナー</div></div>
+      <div class="ri" style="padding:7px 0"><div class="dot" style="background:var(--teal);margin-top:7px"></div><div style="font-size:15px;color:var(--muted)">銀行・行政手続き</div></div>
+      <div class="ri" style="padding:7px 0;border-bottom:none"><div class="dot" style="background:var(--teal);margin-top:7px"></div><div style="font-size:15px;color:var(--muted)">冠婚葬祭・文化理解</div></div>
+      <div style="margin-top:14px"><span class="badge badge-teal">生活定着に直結</span></div>
+    </div>
+    <div class="card" style="border-top:5px solid var(--blue);padding:18px 16px">
+      <div style="background:var(--blue);color:#fff;font-size:11px;font-weight:700;padding:3px 10px;border-radius:4px;display:inline-block;margin-bottom:10px">CATEGORY 03</div>
+      <div style="font-size:19px;font-weight:700;color:var(--blue);margin-bottom:14px">職場ルール研修</div>
+      <div class="ri" style="padding:7px 0"><div class="dot" style="background:var(--teal);margin-top:7px"></div><div style="font-size:15px;color:var(--muted)">企業独自の規定・手順</div></div>
+      <div class="ri" style="padding:7px 0"><div class="dot" style="background:var(--teal);margin-top:7px"></div><div style="font-size:15px;color:var(--muted)">食品衛生・介護安全</div></div>
+      <div class="ri" style="padding:7px 0;border-bottom:none"><div class="dot" style="background:var(--teal);margin-top:7px"></div><div style="font-size:15px;color:var(--muted)">報連相・ハラスメント対応</div></div>
+      <div style="margin-top:14px"><span class="badge badge-teal">企業カスタム対応可</span></div>
+    </div>
+    <div class="card" style="border-top:5px solid var(--blue);padding:18px 16px">
+      <div style="background:var(--blue);color:#fff;font-size:11px;font-weight:700;padding:3px 10px;border-radius:4px;display:inline-block;margin-bottom:10px">CATEGORY 04</div>
+      <div style="font-size:19px;font-weight:700;color:var(--blue);margin-bottom:14px">キャリア設計</div>
+      <div class="ri" style="padding:7px 0"><div class="dot" style="background:var(--teal);margin-top:7px"></div><div style="font-size:15px;color:var(--muted)">特定技能1号→2号移行</div></div>
+      <div class="ri" style="padding:7px 0"><div class="dot" style="background:var(--teal);margin-top:7px"></div><div style="font-size:15px;color:var(--muted)">DXスキル・ITリテラシー</div></div>
+      <div class="ri" style="padding:7px 0;border-bottom:none"><div class="dot" style="background:var(--teal);margin-top:7px"></div><div style="font-size:15px;color:var(--muted)">永住・帰国起業支援</div></div>
+      <div style="margin-top:14px"><span class="badge badge-teal">長期定着の動機付け</span></div>
+    </div>
+  </div>
+  <div style="margin-top:32px;background:var(--blue);border-radius:8px;padding:18px 24px;font-size:20px;font-weight:900;color:#fff;text-align:center">Zoom形式で実施。複数企業の合同受講により <span style="color:var(--yellow)">低コスト・高品質</span> を実現。</div>
+  <span class="pg">11 / 18</span>
+</section>
+
+<!-- ══ S12: 料金 ══ -->
+<section class="slide">
+  <div class="bg-num">10</div>
+  <div class="slide-title">料金プラン</div>
+  <div class="slide-sub">貴社の状況に合わせて3つのプランからお選びいただけます。</div>
+  <div class="yellow-line"></div>
+  <div class="g3" style="flex:1;align-items:start">
+    <div class="pc">
+      <div style="font-size:11px;font-weight:700;color:var(--muted);margin-bottom:8px;font-family:'Inter',sans-serif;letter-spacing:.1em">STARTER</div>
+      <div style="font-size:17px;font-weight:700;margin-bottom:16px">AIシステム単体</div>
+      <div class="pn">¥15,000</div>
+      <div class="pu">/ 月 · 外国人材1名あたり</div>
+      <div class="pr"><span class="ok">✓</span>LINE多言語AIサポート</div>
+      <div class="pr"><span class="ok">✓</span>緊急SOSシステム</div>
+      <div class="pr"><span class="ok">✓</span>在留期限アラート</div>
+      <div class="pr"><span class="ok">✓</span>学習管理ダッシュボード</div>
+      <div class="pr"><span class="ng">–</span><span style="color:var(--muted)">行政書士 法務顧問</span></div>
+      <div class="pr"><span class="ng">–</span><span style="color:var(--muted)">座学プログラム</span></div>
+    </div>
+    <div class="pc feat">
+      <div class="pf">推奨プラン</div>
+      <div style="font-size:11px;font-weight:700;color:var(--blue);margin-bottom:8px;font-family:'Inter',sans-serif;letter-spacing:.1em">STANDARD</div>
+      <div style="font-size:17px;font-weight:700;margin-bottom:16px">AI ＋ 行政書士</div>
+      <div class="pn">¥30,000</div>
+      <div class="pu">/ 月 · 外国人材1名あたり</div>
+      <div class="pr"><span class="ok">✓</span>AIシステム全機能</div>
+      <div class="pr"><span class="ok">✓</span>行政書士 法務顧問</div>
+      <div class="pr"><span class="ok">✓</span>在留資格申請・更新</div>
+      <div class="pr"><span class="ok">✓</span>コンプライアンス監査</div>
+      <div class="pr"><span class="ok">✓</span>離職・失踪予兆対応</div>
+      <div class="pr"><span class="ng">–</span><span style="color:var(--muted)">座学プログラム</span></div>
+    </div>
+    <div class="pc">
+      <div style="font-size:11px;font-weight:700;color:var(--muted);margin-bottom:8px;font-family:'Inter',sans-serif;letter-spacing:.1em">PREMIUM</div>
+      <div style="font-size:17px;font-weight:700;margin-bottom:16px">フルパッケージ</div>
+      <div class="pn">¥45,000</div>
+      <div class="pu">/ 月 · 外国人材1名あたり</div>
+      <div class="pr"><span class="ok">✓</span>Standardの全機能</div>
+      <div class="pr"><span class="ok">✓</span>座学プログラム</div>
+      <div class="pr"><span class="ok">✓</span>JLPT検定対策</div>
+      <div class="pr"><span class="ok">✓</span>職場カスタム研修</div>
+      <div class="pr"><span class="ok">✓</span>キャリアパス個別設計</div>
+    </div>
+  </div>
+  <span class="pg">12 / 18</span>
+</section>
+
+<!-- ══ S13: 助成金 ══ -->
+<section class="slide">
+  <div class="bg-num">11</div>
+  <div class="slide-title">助成金活用と導入特典</div>
+  <div class="slide-sub">採用にかけた80万円、回収できていますか？</div>
+  <div class="yellow-line"></div>
+  <div class="g2" style="flex:1;gap:28px;align-items:stretch;margin-top:16px">
+    <div style="display:flex;flex-direction:column;gap:16px;height:100%">
+      <div class="card-yellow" style="flex:1;display:flex;flex-direction:column;justify-content:center">
+        <div style="font-size:17px;font-weight:700;color:var(--text);margin-bottom:14px">人材開発支援助成金を活用すると</div>
+        <div style="display:flex;align-items:baseline;gap:10px;margin-bottom:10px">
+          <div style="font-size:56px;font-weight:900;color:var(--blue);line-height:1;font-family:'Inter',sans-serif">¥3,000</div>
+          <div style="font-size:20px;color:var(--muted)">〜 / 月</div>
+        </div>
+        <div style="font-size:16px;color:var(--muted)">Standardプラン（定価¥30,000）の実質負担額</div>
+        <div style="margin-top:10px;font-size:16px;color:var(--muted)">最大 <strong style="color:var(--blue)">▲¥49,000/月/名</strong> を助成金で補填</div>
+      </div>
+      <div class="card-blue" style="flex:1;display:flex;flex-direction:column;justify-content:center">
+        <div style="font-size:18px;font-weight:700;color:var(--blue);margin-bottom:10px">助成金申請から支給まで全工程サポート</div>
+        <div style="font-size:16px;color:var(--muted);line-height:1.7">計画届の作成・提出から支給申請まで、行政書士チームが一括して対応いたします。</div>
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column">
+      <div style="background:var(--blue);border-radius:12px;padding:28px;text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:flex-start">
+        <div style="background:var(--yellow);color:var(--text);font-size:14px;font-weight:700;padding:5px 20px;border-radius:100px;display:inline-block;margin-bottom:20px">導入特典</div>
+        <div style="font-size:30px;font-weight:900;color:#fff;margin-bottom:12px;line-height:1.3">最初の3ヶ月<br>無料でご体験</div>
+        <div style="font-size:16px;color:rgba(255,255,255,.75);line-height:1.7">効果を確認してから本契約へ移行いただけます。貴社のリスクはほぼゼロです。</div>
+      </div>
+    </div>
+  </div>
+  <span class="pg">13 / 18</span>
+</section>
+
+<!-- ══ S14: ROI ══ -->
+<section class="slide">
+  <div class="bg-num">12</div>
+  <div class="slide-title">導入後のROI・効果試算</div>
+  <div class="slide-sub">スタッフが定着するだけで、採用コストは大幅に下がります。</div>
+  <div class="yellow-line"></div>
+  <div class="g2" style="flex:1;gap:28px;align-items:stretch;margin-top:16px">
+    <div style="display:flex;flex-direction:column;gap:16px;height:100%">
+      <div style="background:var(--blue);border-radius:12px;padding:24px;display:flex;gap:20px">
+        <div style="text-align:center;flex:1">
+          <div class="stat-num-white">¥80万</div>
+          <div style="font-size:14px;color:rgba(255,255,255,.8);margin-top:6px;line-height:1.5">外国人材1名の採用コスト<br>（紹介料＋ビザ＋教育費）</div>
+        </div>
+        <div style="width:1px;background:rgba(255,255,255,.2)"></div>
+        <div style="text-align:center;flex:1">
+          <div class="stat-num-white">68%</div>
+          <div style="font-size:14px;color:rgba(255,255,255,.8);margin-top:6px;line-height:1.5">支援なしの場合の<br>1年以内早期離職率</div>
+        </div>
+      </div>
+      <div style="background:var(--yellowl);border-left:4px solid var(--yellow);padding:16px 20px;border-radius:0 8px 8px 0;flex:1">
+        <div style="font-size:15px;font-weight:700;margin-bottom:6px">5名受入企業の年間コスト比較（試算）</div>
+        <div style="font-size:15px;color:var(--text)"><strong>支援なし → 年間 ¥400万＋</strong>（再採用繰り返し）</div>
+        <div style="font-size:15px;color:var(--teal);font-weight:700;margin-top:4px">GS導入後 → 年間 ¥18万〜（助成金活用後）</div>
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:14px;height:100%">
+      <div style="font-size:14px;font-weight:700;color:var(--text);letter-spacing:.04em">3カ年収支シミュレーション（保守的試算）</div>
+      <table class="tbl">
+        <tr><th>項目</th><th>1年目（3名）</th><th>2年目（10名）</th><th>3年目（20名）</th></tr>
+        <tr><td>紹介手数料</td><td>¥90万</td><td>¥300万</td><td>¥600万</td></tr>
+        <tr><td>支援管理料</td><td>¥18万</td><td>¥96万</td><td>¥276万</td></tr>
+        <tr><td>コンサル・設定</td><td>¥10万</td><td>¥40万</td><td>¥80万</td></tr>
+        <tr><td style="font-weight:700;color:var(--blue)">年間粗利益</td><td style="font-weight:700;color:var(--blue)">¥118万</td><td style="font-weight:700;color:var(--blue)">¥436万</td><td style="font-weight:700;color:var(--blue)">¥956万</td></tr>
+      </table>
+      <div style="background:var(--bluel);border:1.5px solid rgba(70,93,170,.2);border-radius:8px;padding:14px 18px;font-size:15px;flex:1;display:flex;align-items:center">
+        3年後にストック収益だけで<strong style="color:var(--blue)">年間約720万円</strong>の体制へ。
+      </div>
+    </div>
+  </div>
+  <span class="pg">14 / 18</span>
+</section>
+
+<!-- ══ S15: ロードマップ ══ -->
+<section class="slide">
+  <div class="bg-num">13</div>
+  <div class="slide-title">導入ロードマップ</div>
+  <div class="slide-sub">最初の3ヶ月は無料でご体験いただけます。</div>
+  <div class="yellow-line"></div>
+  <!-- タイムライン -->
+  <div style="display:flex;align-items:stretch;gap:0;height:64px;margin-bottom:20px;flex-shrink:0">
+    <div style="flex:1;background:var(--blue);border-radius:8px 0 0 8px;display:flex;align-items:center;justify-content:center;gap:12px;color:#fff">
+      <div style="width:26px;height:26px;border-radius:50%;border:2px solid var(--yellow);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;font-family:'Inter',sans-serif">1</div>
+      <div><div style="font-size:14px;font-weight:700">Phase 1 — 導入・基盤整備</div><div style="font-size:11px;opacity:.75">Month 1〜3　無料試用期間</div></div>
+    </div>
+    <div style="width:1px;background:rgba(255,255,255,.2)"></div>
+    <div style="flex:1;background:var(--blue2);display:flex;align-items:center;justify-content:center;gap:12px;color:#fff">
+      <div style="width:26px;height:26px;border-radius:50%;border:2px solid rgba(255,255,255,.5);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;font-family:'Inter',sans-serif">2</div>
+      <div><div style="font-size:14px;font-weight:700">Phase 2 — 定着・教育スタート</div><div style="font-size:11px;opacity:.75">Month 4〜6</div></div>
+    </div>
+    <div style="width:1px;background:rgba(255,255,255,.2)"></div>
+    <div style="flex:1;background:var(--blue3);border-radius:0 8px 8px 0;display:flex;align-items:center;justify-content:center;gap:12px;color:#fff">
+      <div style="width:26px;height:26px;border-radius:50%;border:2px solid rgba(255,255,255,.5);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;font-family:'Inter',sans-serif">3</div>
+      <div><div style="font-size:14px;font-weight:700">Phase 3 — 戦力化・長期伴走</div><div style="font-size:11px;opacity:.75">Month 7〜</div></div>
+    </div>
+  </div>
+  <div class="g3" style="align-items:start;gap:16px">
+    <div class="card-blue" style="padding:18px 20px">
+      <div class="ri" style="padding:6px 0"><div class="dot" style="background:var(--blue)"></div><div style="font-size:16px">LINEシステム導入・初期設定</div></div>
+      <div class="ri" style="padding:6px 0"><div class="dot" style="background:var(--blue)"></div><div style="font-size:16px">行政書士アサイン・顔合わせ</div></div>
+      <div class="ri" style="padding:6px 0"><div class="dot" style="background:var(--blue)"></div><div style="font-size:16px">在留カード確認・体制整備</div></div>
+      <div class="ri" style="padding:8px 0;border-bottom:none"><div class="dot" style="background:var(--blue)"></div><div style="font-size:16px">外国人材オンボーディング</div></div>
+    </div>
+    <div class="card-blue" style="padding:18px 20px">
+      <div class="ri" style="padding:6px 0"><div class="dot" style="background:var(--blue)"></div><div style="font-size:16px">座学プログラム開始</div></div>
+      <div class="ri" style="padding:6px 0"><div class="dot" style="background:var(--blue)"></div><div style="font-size:16px">失踪・離職モニタリング本格運用</div></div>
+      <div class="ri" style="padding:6px 0"><div class="dot" style="background:var(--blue)"></div><div style="font-size:16px">初回コンプライアンス監査</div></div>
+      <div class="ri" style="padding:8px 0;border-bottom:none"><div class="dot" style="background:var(--blue)"></div><div style="font-size:16px">助成金申請サポート開始</div></div>
+    </div>
+    <div class="card-blue" style="padding:18px 20px">
+      <div class="ri" style="padding:6px 0"><div class="dot" style="background:var(--blue)"></div><div style="font-size:16px">JLPT受験・資格取得支援</div></div>
+      <div class="ri" style="padding:6px 0"><div class="dot" style="background:var(--blue)"></div><div style="font-size:16px">特定技能1号→2号 移行計画</div></div>
+      <div class="ri" style="padding:6px 0"><div class="dot" style="background:var(--blue)"></div><div style="font-size:16px">企業カスタム研修の強化</div></div>
+      <div class="ri" style="padding:8px 0;border-bottom:none"><div class="dot" style="background:var(--blue)"></div><div style="font-size:16px">継続顧問・キャリアパス更新</div></div>
+    </div>
+  </div>
+  <span class="pg">15 / 18</span>
+</section>
+
+<!-- ══ S16: LTV ══ -->
+<section class="slide">
+  <div class="bg-num">14</div>
+  <div class="slide-title">長期ライフサイクルと定着支援</div>
+  <div class="slide-sub">1人の外国人材に10年以上関わり続けます。</div>
+  <div class="yellow-line"></div>
+  <!-- LTVフロー -->
+  <div style="display:flex;align-items:stretch;gap:0;height:110px;margin-bottom:24px;flex-shrink:0">
+    <div style="flex:1;background:var(--bluel);border:2px solid var(--blue);border-radius:8px 0 0 8px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:0 10px">
+      <div style="font-size:10px;font-weight:700;color:var(--blue);letter-spacing:.1em;margin-bottom:4px;font-family:'Inter',sans-serif">1〜3年目</div>
+      <div style="font-size:16px;font-weight:700;color:var(--blue)">技能実習</div>
+      <div style="font-size:13px;color:var(--muted);margin-top:4px">生活定着・日本語教育</div>
+    </div>
+    <div style="width:0;height:0;border-top:55px solid transparent;border-bottom:55px solid transparent;border-left:16px solid var(--blue);flex-shrink:0"></div>
+    <div style="flex:1;background:var(--blue);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:0 10px">
+      <div style="font-size:10px;font-weight:700;color:rgba(255,255,255,.7);letter-spacing:.1em;margin-bottom:4px;font-family:'Inter',sans-serif">4〜8年目</div>
+      <div style="font-size:16px;font-weight:700;color:#fff">特定技能1号→2号</div>
+      <div style="font-size:13px;color:rgba(255,255,255,.75);margin-top:4px">スキルアップ・キャリア設計</div>
+    </div>
+    <div style="width:0;height:0;border-top:55px solid transparent;border-bottom:55px solid transparent;border-left:16px solid var(--blue);flex-shrink:0"></div>
+    <div style="flex:1;background:var(--blue2);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:0 10px">
+      <div style="font-size:10px;font-weight:700;color:rgba(255,255,255,.7);letter-spacing:.1em;margin-bottom:4px;font-family:'Inter',sans-serif">8年目以降</div>
+      <div style="font-size:16px;font-weight:700;color:#fff">家族帯同・永住申請</div>
+      <div style="font-size:13px;color:rgba(255,255,255,.75);margin-top:4px">家族呼び寄せ・永住権取得</div>
+    </div>
+    <div style="width:0;height:0;border-top:55px solid transparent;border-bottom:55px solid transparent;border-left:16px solid var(--blue2);flex-shrink:0"></div>
+    <div style="flex:1;background:var(--yellow);border-radius:0 8px 8px 0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:0 10px">
+      <div style="font-size:10px;font-weight:700;color:rgba(0,0,0,.5);letter-spacing:.1em;margin-bottom:4px;font-family:'Inter',sans-serif">帰国後</div>
+      <div style="font-size:16px;font-weight:700;color:var(--text)">母国での成功</div>
+      <div style="font-size:13px;color:var(--text);opacity:.7;margin-top:4px">日系企業・リーダー・起業</div>
+    </div>
+  </div>
+  <div class="g2" style="flex:1;gap:20px">
+    <div class="card-teal" style="display:flex;flex-direction:column;justify-content:center">
+      <div style="font-size:16px;font-weight:700;color:var(--teal);margin-bottom:14px">貴社のメリット</div>
+      <div class="ri"><div class="dot" style="background:var(--teal)"></div><div><div style="font-size:17px;font-weight:600;margin-bottom:3px">採用コストの削減</div><div style="font-size:14px;color:var(--muted)">長期雇用により、再採用費用が不要になります</div></div></div>
+      <div class="ri"><div class="dot" style="background:var(--teal)"></div><div><div style="font-size:17px;font-weight:600;margin-bottom:3px">現場の戦力化</div><div style="font-size:14px;color:var(--muted)">スキルアップした人材が現場の中核を担います</div></div></div>
+      <div class="ri" style="border-bottom:none"><div class="dot" style="background:var(--teal)"></div><div><div style="font-size:17px;font-weight:600;margin-bottom:3px">法的リスクの継続管理</div><div style="font-size:14px;color:var(--muted)">在留資格・労働法を専門家が継続して管理します</div></div></div>
+    </div>
+    <div style="background:var(--blue);border-radius:12px;padding:28px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center">
+      <div style="width:32px;height:3px;background:var(--yellow);border-radius:2px;margin-bottom:16px"></div>
+      <div style="font-size:20px;font-weight:700;color:#fff;line-height:1.6;margin-bottom:12px">「日本で働いた経験が<br>母国でのキャリアに活きる」</div>
+      <div style="width:32px;height:3px;background:var(--yellow);border-radius:2px;margin-bottom:16px"></div>
+      <div style="font-size:15px;color:rgba(255,255,255,.85);line-height:1.8">このビジョンを示すことで<br>優秀な外国人材が集まりやすくなります。</div>
+    </div>
+  </div>
+  <span class="pg">16 / 18</span>
+</section>
+
+<!-- ══ S17: 運営体制 ══ -->
+<section class="slide">
+  <div class="bg-num">15</div>
+  <div class="slide-title">運営体制・パートナー</div>
+  <div class="slide-sub">行政書士・社労士・日本語講師がチームで貴社を支えます。</div>
+  <div class="yellow-line"></div>
+  <div style="flex:1;display:flex;align-items:center;justify-content:center;gap:24px">
+    <!-- 左パートナー -->
+    <div style="display:flex;flex-direction:column;gap:20px">
+      <div style="background:var(--white);border:2px solid var(--blue);border-radius:12px;padding:20px 24px;min-width:190px;text-align:center">
+        <div style="font-size:11px;font-weight:700;color:var(--muted);font-family:'Inter',sans-serif;margin-bottom:6px">Visa / Law</div>
+        <div style="font-size:19px;font-weight:700;color:var(--blue);margin-bottom:6px">行政書士法人</div>
+        <div style="font-size:14px;color:var(--muted)">在留資格・法的相談</div>
+      </div>
+      <div style="background:var(--white);border:2px solid var(--blue);border-radius:12px;padding:20px 24px;min-width:190px;text-align:center">
+        <div style="font-size:11px;font-weight:700;color:var(--muted);font-family:'Inter',sans-serif;margin-bottom:6px">Education</div>
+        <div style="font-size:19px;font-weight:700;color:var(--blue);margin-bottom:6px">日本語学校・講師</div>
+        <div style="font-size:14px;color:var(--muted)">週次授業・カリキュラム</div>
+      </div>
+    </div>
+    <!-- 接続線 -->
+    <svg width="80" height="160" style="flex-shrink:0">
+      <line x1="0" y1="40" x2="80" y2="80" stroke="#465DAA" stroke-width="2"/>
+      <line x1="0" y1="120" x2="80" y2="80" stroke="#465DAA" stroke-width="2"/>
+      <circle cx="0" cy="40" r="4" fill="#465DAA"/>
+      <circle cx="0" cy="120" r="4" fill="#465DAA"/>
+    </svg>
+    <!-- 中央 -->
+    <div style="width:180px;height:180px;border-radius:50%;background:var(--blue);border:5px solid var(--yellow);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;flex-shrink:0">
+      <div style="font-size:12px;color:rgba(255,255,255,.6);font-family:'Inter',sans-serif;margin-bottom:6px">自社</div>
+      <div style="font-size:20px;font-weight:700;color:#fff;margin-bottom:4px">Global Seeds</div>
+      <div style="font-size:13px;color:rgba(255,255,255,.75)">Sales / DX</div>
+      <div style="font-size:13px;color:rgba(255,255,255,.75)">Management</div>
+    </div>
+    <!-- 接続線 -->
+    <svg width="80" height="160" style="flex-shrink:0">
+      <line x1="80" y1="40" x2="0" y2="80" stroke="#465DAA" stroke-width="2"/>
+      <line x1="80" y1="120" x2="0" y2="80" stroke="#465DAA" stroke-width="2"/>
+      <circle cx="80" cy="40" r="4" fill="#465DAA"/>
+      <circle cx="80" cy="120" r="4" fill="#465DAA"/>
+    </svg>
+    <!-- 右パートナー -->
+    <div style="display:flex;flex-direction:column;gap:20px">
+
+      <div style="background:var(--teall);border:2px solid var(--teal);border-radius:12px;padding:20px 24px;min-width:190px;text-align:center">
+        <div style="font-size:11px;font-weight:700;color:var(--teal);font-family:'Inter',sans-serif;margin-bottom:6px">Client</div>
+        <div style="font-size:19px;font-weight:700;color:var(--teal);margin-bottom:6px">受入企業（貴社）</div>
+        <div style="font-size:14px;color:var(--muted)">飲食・介護業界</div>
+      </div>
+    </div>
+  </div>
+  <div style="text-align:center;font-size:15px;color:var(--muted);margin-top:8px">自社は「営業・DX・管理」に集中し、専門業務はプロに委託。固定費ゼロの体制。</div>
+  <span class="pg">17 / 18</span>
+</section>
+
+<!-- ══ S18: CTA ══ -->
+<section class="slide" style="background:var(--blue);justify-content:center;align-items:center;text-align:center">
+  <div style="position:absolute;top:0;left:0;width:100%;height:6px;background:var(--yellow)"></div>
+  <div style="max-width:600px">
+    <div style="background:var(--yellow);display:inline-block;padding:4px 16px;font-size:12px;font-weight:700;color:var(--text);margin-bottom:24px;border-radius:4px">Get Started</div>
+    <h2 style="font-size:38px;font-weight:900;color:#fff;margin-bottom:16px;line-height:1.2">まずは3ヶ月、無料で<br>ご体験いただけます。</h2>
+    <div style="width:48px;height:3px;background:var(--yellow);margin:20px auto;border-radius:2px"></div>
+    <p style="font-size:17px;color:rgba(255,255,255,.75);line-height:1.8;margin-bottom:40px">外国人材とともに成長する職場づくりを、<br>Global Seedsがご支援いたします。</p>
+    <div style="border:2px solid var(--yellow);color:var(--yellow);font-size:15px;font-weight:700;padding:14px 48px;border-radius:4px;display:inline-block;margin-bottom:40px;letter-spacing:.04em">無料相談・資料請求はこちら</div>
+    <div style="display:flex;gap:32px;justify-content:center;flex-wrap:wrap">
+      <div style="font-size:13px;color:rgba(255,255,255,.4)">info@globalseeds.jp（仮）</div>
+      <div style="font-size:13px;color:rgba(255,255,255,.4)">000-0000-0000（仮）</div>
+      <div style="font-size:13px;color:rgba(255,255,255,.4)">www.globalseeds.jp（仮）</div>
+    </div>
+  </div>
+  <span class="pg" style="color:rgba(255,255,255,.15)">18 / 18</span>
+</section>
+
+</div>
+
+<nav id="nav">
+  <button class="nb" id="prev"><svg viewBox="0 0 24 24" stroke-width="1.5"><polyline points="15 18 9 12 15 6"/></svg></button>
+  <span id="ctr">1 / 18</span>
+  <button class="nb" id="next"><svg viewBox="0 0 24 24" stroke-width="1.5"><polyline points="9 18 15 12 9 6"/></svg></button>
+</nav>
+
+<script>
+const slides=document.querySelectorAll('.slide');
+const total=slides.length;
+let cur=0;
+const deck=document.getElementById('deck');
+const ctr=document.getElementById('ctr');
+function go(n){cur=Math.max(0,Math.min(total-1,n));deck.style.transform=`translateX(-${cur*100}vw)`;ctr.textContent=`${cur+1} / ${total}`}
+document.getElementById('prev').onclick=()=>go(cur-1);
+document.getElementById('next').onclick=()=>go(cur+1);
+document.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key==='ArrowDown')go(cur+1);if(e.key==='ArrowLeft'||e.key==='ArrowUp')go(cur-1)});
+let tx=0;
+document.addEventListener('touchstart',e=>{tx=e.touches[0].clientX},{passive:true});
+document.addEventListener('touchend',e=>{const dx=e.changedTouches[0].clientX-tx;if(Math.abs(dx)>50)go(dx<0?cur+1:cur-1)},{passive:true});
+</script>
+</body>
+</html>
