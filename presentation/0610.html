@@ -101,6 +101,63 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--white);font-fa
 
 /* ── 赤ラベル ── */
 .red-label{background:var(--red);color:#fff;font-size:16px;font-weight:700;padding:6px 16px;border-radius:4px;display:inline-block;margin-bottom:16px}
+
+/* ── iPad対応 (〜1024px) ── */
+@media screen and (max-width: 1024px) {
+  .slide { padding: 36px 48px 40px; }
+  .bg-num { font-size: 80px; left: 48px; }
+  .slide-title { font-size: 26px; }
+  .slide-sub { font-size: 15px; }
+  .stat-num, .stat-num-white { font-size: 56px; }
+  .g2 { grid-template-columns: 1fr 1fr; gap: 16px; }
+  .g3 { grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+  .g4 { grid-template-columns: 1fr 1fr; gap: 12px; }
+  .tbl th, .tbl td { padding: 8px 10px; font-size: 12px; }
+  .pn { font-size: 28px; }
+  .ri { padding: 6px 0; }
+  .card { padding: 16px; }
+  .card-blue, .card-teal, .card-red, .card-yellow { padding: 16px; }
+  .oc { width: 110px; height: 110px; }
+  .on { min-width: 120px; padding: 12px; }
+  #logo { font-size: 10px; left: 24px; top: 16px; }
+  #nav { bottom: 16px; }
+  .pc { padding: 20px 16px; }
+  .pf { font-size: 9px; }
+}
+
+/* ── iPad対応 (768px〜1024px) ── */
+@media (max-width: 1024px) {
+  .slide { padding: 36px 60px 40px; }
+  .bg-num { font-size: 80px; left: 40px; }
+  .slide-title { font-size: 26px; }
+  .slide-sub { font-size: 14px; }
+  .stat-num-white { font-size: 56px; }
+  .stat-num { font-size: 56px; }
+  .pn { font-size: 28px; }
+  .tbl th { font-size: 12px; padding: 9px 12px; }
+  .tbl td { font-size: 12px; padding: 9px 12px; }
+  .ri { padding: 7px 0; }
+  .card { padding: 16px; }
+  .card-blue { padding: 16px; }
+  .card-teal { padding: 16px; }
+  .card-red { padding: 16px; }
+  .card-yellow { padding: 16px; }
+  .on { min-width: 120px; padding: 14px; }
+  .oc { width: 120px; height: 120px; }
+  .g4 { grid-template-columns: 1fr 1fr; gap: 12px; }
+  .pc { padding: 20px 16px; }
+}
+
+/* ── スマホ対応 (〜767px) ── */
+@media (max-width: 767px) {
+  .slide { padding: 24px 20px 40px; overflow-y: auto; height: auto; min-height: 100vh; }
+  #deck { flex-direction: column; height: auto; }
+  .bg-num { display: none; }
+  .slide-title { font-size: 20px; }
+  .slide-sub { font-size: 13px; }
+  .g2, .g3, .g4 { grid-template-columns: 1fr; }
+  .stat-num-white { font-size: 40px; }
+}
 </style>
 </head>
 <body>
