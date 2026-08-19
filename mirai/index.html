@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>お墓掃除代行　価格帯調査（2026年）</title>
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Noto Sans JP', 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', 'Yu Gothic', 'Meiryo', sans-serif; background-color: #ffffff; color: #1f2937; line-height: 1.85; font-size: 16.5px; }
+        .layout { display: flex; min-height: 100vh; }
+        .sidebar { width: 280px; flex-shrink: 0; position: sticky; top: 0; height: 100vh; overflow-y: auto; background-color: #f9fafb; border-right: 1px solid #e5e7eb; display: flex; flex-direction: column; padding: 2rem 0 3rem 0; }
+        .sidebar-label { font-size: 0.7rem; font-weight: 700; color: #9ca3af; text-transform: uppercase; letter-spacing: 0.08em; padding: 0 1.5rem; margin-bottom: 1rem; }
+        .sidebar-links { display: flex; flex-direction: column; }
+        .sidebar-link { display: block; padding: 0.45rem 1.5rem; font-size: 0.8rem; color: #6b7280; text-decoration: none; border-radius: 0.5rem; margin: 0.1rem 0.5rem; transition: background 0.18s, color 0.18s; }
+        .sidebar-link:hover { background-color: #e5e7eb; color: #111827; }
+        .sidebar-link.active { background-color: #ecfdf5; color: #065f46; font-weight: 700; }
+        .sidebar-link.active-blue { background-color: #eff6ff; color: #1d4ed8; font-weight: 700; }
+        .sidebar-link.active-mirai { background-color: #f0fdfa; color: #0f766e; font-weight: 700; }
+        .sidebar-link.active-gray { background-color: #f3f4f6; color: #374151; font-weight: 700; }
+        .sidebar-card { margin: 1.5rem 1rem 0 1rem; background: #ffffff; border: 1px solid #e5e7eb; border-radius: 0.75rem; padding: 1.25rem; font-size: 0.75rem; color: #6b7280; box-shadow: 0 1px 4px rgba(0,0,0,0.06); }
+        .sidebar-card-title { font-weight: 700; color: #1f2937; font-size: 0.85rem; margin-bottom: 0.6rem; }
+        .sidebar-card-row { display: flex; justify-content: space-between; margin-bottom: 0.35rem; }
+        .sidebar-card-row span:last-child { font-weight: 700; color: #1f2937; }
+        .sidebar-card-row .status { color: #92400e; }
+        .main { flex: 1; padding: 0 4rem 4rem 4rem; background: #ffffff; min-width: 0; }
+        .page-header { padding: 3.5rem 0 2.5rem 0; margin-bottom: 2.5rem; border-bottom: 1px solid #e5e7eb; }
+        .badge { display: inline-block; padding: 0.2rem 0.75rem; border-radius: 9999px; font-size: 0.78rem; font-weight: 600; background: #f3f4f6; color: #4b5563; margin-bottom: 1rem; letter-spacing: 0.04em; }
+        .page-title { font-size: 2.2rem; font-weight: 800; color: #111827; letter-spacing: -0.02em; line-height: 1.2; margin-bottom: 0.75rem; }
+        .page-subtitle { color: #6b7280; font-size: 1rem; font-weight: 500; }
+        .section-card { background: #ffffff; border-radius: 1rem; border: 1px solid #e5e7eb; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); margin-bottom: 2rem; padding: 2.5rem; transition: box-shadow 0.25s; }
+        .section-card:hover { box-shadow: 0 10px 20px -3px rgba(0,0,0,0.09); }
+        .section-card.gray-card { background-color: #f9fafb; border: 1px solid #e5e7eb; }
+        .section-card.mirai-card { background-color: #f0fdfa; border: 1px solid #99f6e4; }
+        .section-head { display: flex; align-items: center; margin-bottom: 1.75rem; }
+        .section-bar { width: 6px; height: 2rem; border-radius: 9999px; margin-right: 1rem; flex-shrink: 0; }
+        .bar-green { background: #059669; }
+        .bar-blue { background: #2563eb; }
+        .bar-mirai { background: #0d9488; }
+        .bar-gray { background: #6b7280; }
+        .section-title { font-size: 1.35rem; font-weight: 700; color: #111827; }
+        .section-title.blue { color: #1d4ed8; }
+        .section-title.mirai { color: #0f766e; }
+        .section-title.gray { color: #374151; }
+        .section-intro { color: #6b7280; margin-bottom: 1.5rem; line-height: 1.8; }
+        .sub-heading { font-size: 1.05rem; font-weight: 700; color: #1f2937; margin: 1.75rem 0 0.85rem 0; }
+        ul.dot-list { list-style: disc; padding-left: 1.5rem; color: #4b5563; }
+        ul.dot-list li { margin-bottom: 0.6rem; line-height: 1.8; }
+        ul.dot-list li::marker { color: #10b981; }
+        ul.dot-list.blue-markers li::marker { color: #2563eb; }
+        ul.dot-list.mirai-markers li::marker { color: #0d9488; }
+        ul.dot-list.gray-markers li::marker { color: #6b7280; }
+        ul.dot-list li strong { color: #111827; }
+        .box-green { border-left: 4px solid #10b981; background: #f0fdf4; padding: 1.1rem 1.35rem; margin: 1.25rem 0; border-radius: 0 0.5rem 0.5rem 0; }
+        .box-green .box-label { font-size: 0.82rem; font-weight: 700; color: #065f46; margin-bottom: 0.5rem; }
+        .box-blue { border-left: 4px solid #2563eb; background: #eff6ff; padding: 1.1rem 1.35rem; margin: 1.25rem 0; border-radius: 0 0.5rem 0.5rem 0; }
+        .box-blue .box-label { font-size: 0.82rem; font-weight: 700; color: #1d4ed8; margin-bottom: 0.5rem; }
+        .box-mirai { border-left: 4px solid #0d9488; background: #f0fdfa; padding: 1.1rem 1.35rem; margin: 1.25rem 0; border-radius: 0 0.5rem 0.5rem 0; }
+        .box-mirai .box-label { font-size: 0.82rem; font-weight: 700; color: #0f766e; margin-bottom: 0.5rem; }
+        .box-red { border-left: 4px solid #ef4444; background: #fef2f2; padding: 1.1rem 1.35rem; margin: 1.25rem 0; border-radius: 0 0.5rem 0.5rem 0; }
+        .box-red .box-label { font-size: 0.82rem; font-weight: 700; color: #991b1b; margin-bottom: 0.5rem; }
+        .box-gray { border-left: 4px solid #9ca3af; background: #f9fafb; padding: 1.1rem 1.35rem; margin: 1.25rem 0; border-radius: 0 0.5rem 0.5rem 0; }
+        .box-gray .box-label { font-size: 0.82rem; font-weight: 700; color: #374151; margin-bottom: 0.5rem; }
+        .data-table { width: 100%; border-collapse: collapse; font-size: 1rem; margin: 1rem 0; }
+        .data-table thead th { background: #f9fafb; padding: 0.8rem 1.1rem; text-align: left; font-weight: 700; color: #374151; border-bottom: 2px solid #e5e7eb; font-size: 0.86rem; letter-spacing: 0.03em; }
+        .data-table tbody td { padding: 0.8rem 1.1rem; border-bottom: 1px solid #f3f4f6; color: #374151; vertical-align: top; font-size: 1rem; }
+        .data-table tbody tr:hover { background: #f9fafb; }
+        .data-table.mirai-head tbody td strong { color: #0f766e; }
+        .table-wrap { background: #ffffff; border: 1px solid #e5e7eb; border-radius: 0.75rem; padding: 0.5rem; overflow-x: auto; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+        .table-wrap .data-table { margin: 0.25rem; width: calc(100% - 0.5rem); }
+        .page-footer { margin-top: 4rem; padding: 2.5rem 0; border-top: 1px solid #e5e7eb; text-align: center; font-size: 0.75rem; color: #9ca3af; text-transform: uppercase; letter-spacing: 0.1em; }
+        @media (max-width: 768px) {
+            .layout { flex-direction: column; }
+            .sidebar { width: 100%; height: auto; position: relative; border-right: none; border-bottom: 1px solid #e5e7eb; padding: 1.25rem 0 1rem 0; }
+            .sidebar-card { display: none; }
+            .main { padding: 0 1.25rem 3rem 1.25rem; }
+            .page-header { padding: 2rem 0 1.5rem 0; }
+            .page-title { font-size: 1.5rem; }
+            .section-card { padding: 1.5rem; }
+            .sidebar-links { flex-direction: row; flex-wrap: wrap; padding: 0 0.75rem; gap: 0.25rem; }
+            .sidebar-link { margin: 0; padding: 0.3rem 0.7rem; font-size: 0.72rem; }
+            .sidebar-label { padding: 0 1rem; }
+        }
+    </style>
+</head>
+<body>
+<div class="layout">
+    <aside class="sidebar">
+        <p class="sidebar-label">INDEX / 目次</p>
+        <div class="sidebar-links">
+            <a href="#s1" class="sidebar-link">1. 調査概要</a>
+            <a href="#s2" class="sidebar-link">2. 未来らぼの料金体系（現行）</a>
+            <a href="#s3" class="sidebar-link">3. 価格比較①　お参り代行・簡易清掃帯</a>
+            <a href="#s4" class="sidebar-link">4. 価格比較②　本格墓石クリーニング帯</a>
+            <a href="#s5" class="sidebar-link">5. 大手系事業者　料金比較（詳細）</a>
+            <a href="#s6" class="sidebar-link">6. くらしのマーケット等　個人・小規模帯</a>
+            <a href="#s7" class="sidebar-link">7. 料金分析：値引き率と価格の規則性</a>
+            <a href="#s8" class="sidebar-link">8. まとめ・検討ポイント</a>
+        </div>
+        <div class="sidebar-card">
+            <p class="sidebar-card-title">資料情報</p>
+            <div class="sidebar-card-row"><span>調査対象年:</span><span>2026年</span></div>
+            <div class="sidebar-card-row"><span>調査範囲:</span><span>掃除代行・墓石クリーニング</span></div>
+            <div class="sidebar-card-row"><span>比較対象:</span><span>未来らぼ／大手系／個人小規模</span></div>
+            <div class="sidebar-card-row"><span>状態:</span><span class="status">初稿（要確認）</span></div>
+        </div>
+    </aside>
+
+    <div class="main">
+        <header class="page-header">
+            <span class="badge">PRICING RESEARCH</span>
+            <h1 class="page-title">お墓掃除代行　価格帯調査（2026年）</h1>
+            <p class="page-subtitle">お墓の未来・らぼ／大手系事業者／くらしのマーケット等個人・小規模事業者の料金比較 / 価格見直し検討資料</p>
+        </header>
+
+        <!-- 1 調査概要 -->
+        <section id="s1" class="section-card">
+            <div class="section-head">
+                <div class="section-bar bar-green"></div>
+                <h2 class="section-title">1. 調査概要</h2>
+            </div>
+            <ul class="dot-list">
+                <li>目的：お墓の未来・らぼの墓掃除コンテンツにおける価格見直しの検討材料として、自社の現行料金と、各サイト・くらしのマーケットにおける高単価帯・低単価帯を比較。</li>
+                <li>対象範囲：通常清掃・お墓参り代行から、本格的な墓石クリーニングまでを含む。</li>
+                <li>対象期間：2026年に公開・更新された情報のみを対象とした（未来らぼの料金は公式サイト現行掲載分）。</li>
+                <li>調査方法：ウェブ検索および公式サイト（ohakano-mirai.com）の直接確認、比較記事、くらしのマーケット掲載情報の確認。</li>
+            </ul>
+        </section>
+
+        <!-- 2 未来らぼの料金体系 -->
+        <section id="s2" class="section-card mirai-card">
+            <div class="section-head">
+                <div class="section-bar bar-mirai"></div>
+                <h2 class="section-title mirai">2. 未来らぼの料金体系（現行）</h2>
+            </div>
+            <p class="section-intro">お墓の未来・らぼ公式サイト（ohakano-mirai.com）に掲載されている現行料金。すべて税込表記。</p>
+
+            <p class="sub-heading">お墓参り代行（単発・区画別）</p>
+            <div class="table-wrap">
+                <table class="data-table mirai-head">
+                    <thead><tr><th>区画</th><th>対象エリア例</th><th>料金</th></tr></thead>
+                    <tbody>
+                        <tr><td>第1区画</td><td>東京23区</td><td><strong>14,000円</strong></td></tr>
+                        <tr><td>第2区画</td><td>三鷹市・調布市・川崎市全域・さいたま市南部・浦安市など</td><td><strong>16,200円</strong></td></tr>
+                        <tr><td>第3区画</td><td>八王子市・町田市・横浜市全域・所沢市・千葉市など</td><td><strong>19,500円</strong></td></tr>
+                        <tr><td>第4区画</td><td>あきる野市・青梅市・横須賀市全域など</td><td><strong>22,800円</strong></td></tr>
+                        <tr><td>第5区画</td><td>奥多摩町・檜原村など</td><td>お見積り</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <p class="sub-heading">定期管理清掃</p>
+            <div class="box-mirai">
+                <p class="box-label">【割引価格】</p>
+                <p style="color:#374151; font-size:1rem;">回数（年1回〜年12回）・区画にかかわらず、<strong>1回あたり12,000円</strong>の一律料金。単発のお参り代行と比べ、区画によっては2,000〜10,800円ほど割安になる設計。</p>
+            </div>
+
+            <p class="sub-heading">墓石クリーニング（3プラン制・サイズ×築年数で変動）</p>
+            <div class="table-wrap">
+                <table class="data-table mirai-head">
+                    <thead><tr><th>プラン</th><th>内容</th><th>料金レンジ</th></tr></thead>
+                    <tbody>
+                        <tr><td><strong>スタンダード</strong></td><td>草取り・水垢/コケ取り・水洗い・香炉花立清掃</td><td>22,800円〜61,300円<br><span style="font-size:0.8rem; color:#6b7280;">（8寸・築10年以内〜尺2寸・築31〜40年）</span></td></tr>
+                        <tr><td><strong>スペシャル</strong></td><td>スタンダード内容＋浸透性吸水防止コーティング＋名入れ</td><td>47,000円〜85,500円</td></tr>
+                        <tr><td><strong>デラックス</strong></td><td>スペシャル内容＋外柵・灯篭の清掃　※一番選ばれているプラン</td><td>要見積り</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <p class="sub-heading">主なオプション</p>
+            <ul class="dot-list mirai-markers">
+                <li>浸透性吸水防止コーティング：19,800円〜41,800円（サイズ別）</li>
+                <li>墓石への名入れ：6,500円〜</li>
+                <li>墓誌・灯篭・五輪塔クリーニング、玉砂利交換、目地コーキング：いずれも別途見積り</li>
+            </ul>
+        </section>
+
+        <!-- 3 価格比較1 -->
+        <section id="s3" class="section-card">
+            <div class="section-head">
+                <div class="section-bar bar-blue"></div>
+                <h2 class="section-title blue">3. 価格比較①　お参り代行・簡易清掃帯</h2>
+            </div>
+            <p class="section-intro">未来らぼの「お墓参り代行（単発・定期）」を、個人・小規模帯および大手系の簡易清掃料金と並べて比較。横軸は1回あたりの料金（円）。</p>
+
+            <div style="margin: 1.5rem 0;">
+                <svg viewBox="0 0 760 520" xmlns="http://www.w3.org/2000/svg" style="width:100%; height:auto; font-family:'Noto Sans JP','Hiragino Kaku Gothic ProN',sans-serif;">
+                    <text x="0" y="18" font-size="13" font-weight="700" fill="#374151">お参り代行・簡易清掃　料金レンジ比較（2026年・税込目安）</text>
+
+                    <!-- gridlines -->
+                    <g stroke="#e5e7eb" stroke-width="1">
+                        <line x1="180" y1="45" x2="180" y2="420"/>
+                        <line x1="273" y1="45" x2="273" y2="420"/>
+                        <line x1="367" y1="45" x2="367" y2="420"/>
+                        <line x1="460" y1="45" x2="460" y2="420"/>
+                        <line x1="553" y1="45" x2="553" y2="420"/>
+                        <line x1="647" y1="45" x2="647" y2="420"/>
+                        <line x1="740" y1="45" x2="740" y2="420"/>
+                    </g>
+                    <g font-size="10" fill="#9ca3af" text-anchor="middle">
+                        <text x="180" y="435">0円</text>
+                        <text x="273" y="435">5,000</text>
+                        <text x="367" y="435">10,000</text>
+                        <text x="460" y="435">15,000</text>
+                        <text x="553" y="435">20,000</text>
+                        <text x="647" y="435">25,000</text>
+                        <text x="740" y="435">30,000円</text>
+                    </g>
+
+                    <!-- row0: 個人・小規模帯 8,000-20,000 -->
+                    <text x="170" y="70" font-size="11.5" fill="#374151" text-anchor="end">個人・小規模帯（くらしのマーケット等）</text>
+                    <rect x="329" y="58" width="224" height="18" rx="9" fill="#a7f3d0" stroke="#059669" stroke-width="1.2"/>
+                    <text x="441" y="71" font-size="10" fill="#065f46" text-anchor="middle">8,000〜20,000円</text>
+
+                    <!-- row1: 未来らぼ お墓参り代行(単発) 14,000-22,800 -->
+                    <text x="170" y="112" font-size="11.5" fill="#0f766e" font-weight="700" text-anchor="end">未来らぼ　お参り代行（単発）</text>
+                    <rect x="441" y="100" width="165" height="18" rx="9" fill="#5eead4" stroke="#0d9488" stroke-width="1.5"/>
+                    <text x="616" y="113" font-size="10" fill="#0f766e" text-anchor="start">14,000〜22,800円</text>
+
+                    <!-- row2: 未来らぼ 定期管理清掃 12,000 point -->
+                    <text x="170" y="154" font-size="11.5" fill="#0f766e" font-weight="700" text-anchor="end">未来らぼ　定期管理清掃（1回あたり）</text>
+                    <circle cx="404" cy="146" r="6.5" fill="#2dd4bf" stroke="#0f766e" stroke-width="1.5"/>
+                    <text x="418" y="150" font-size="10" fill="#0f766e" text-anchor="start">12,000円（全区画・全回数共通）</text>
+
+                    <!-- row3: H.I.S 15,400 point -->
+                    <text x="170" y="196" font-size="11.5" fill="#374151" text-anchor="end">H.I.S（旅行大手）</text>
+                    <circle cx="467" cy="188" r="6" fill="#fbbf24" stroke="#b45309" stroke-width="1.2"/>
+                    <text x="481" y="192" font-size="10" fill="#92400e" text-anchor="start">15,400円（一例・関東圏）</text>
+
+                    <!-- row4: おそうじ本舗 15,000-19,800 -->
+                    <text x="170" y="238" font-size="11.5" fill="#374151" text-anchor="end">おそうじ本舗</text>
+                    <rect x="460" y="226" width="90" height="18" rx="9" fill="#bfdbfe" stroke="#2563eb" stroke-width="1.2"/>
+                    <text x="595" y="239" font-size="10" fill="#1d4ed8" text-anchor="start">15,000〜19,800円</text>
+
+                    <!-- row5: 美墓ネット 15,000-26,400 -->
+                    <text x="170" y="280" font-size="11.5" fill="#374151" text-anchor="end">美墓ネット（日本香堂）</text>
+                    <rect x="460" y="268" width="213" height="18" rx="9" fill="#bfdbfe" stroke="#2563eb" stroke-width="1.2"/>
+                    <text x="678" y="281" font-size="10" fill="#1d4ed8" text-anchor="start">15,000〜26,400円</text>
+
+                    <!-- row6: くらしのセゾン 16,500 point -->
+                    <text x="170" y="322" font-size="11.5" fill="#374151" text-anchor="end">くらしのセゾン「墓もりくん」</text>
+                    <circle cx="488" cy="314" r="6" fill="#fbbf24" stroke="#b45309" stroke-width="1.2"/>
+                    <text x="502" y="318" font-size="10" fill="#92400e" text-anchor="start">16,500円（単一料金）</text>
+
+                    <!-- row7: ダスキン 18,700-22,000 -->
+                    <text x="170" y="364" font-size="11.5" fill="#374151" text-anchor="end">ダスキン</text>
+                    <rect x="529" y="352" width="62" height="18" rx="9" fill="#bfdbfe" stroke="#2563eb" stroke-width="1.2"/>
+                    <text x="601" y="365" font-size="10" fill="#1d4ed8" text-anchor="start">18,700〜22,000円</text>
+
+                    <!-- row8: きたよ。 22,000-27,500 -->
+                    <text x="170" y="406" font-size="11.5" fill="#374151" text-anchor="end">きたよ。（東証プライム上場運営）</text>
+                    <rect x="591" y="394" width="103" height="18" rx="9" fill="#bfdbfe" stroke="#2563eb" stroke-width="1.2"/>
+                    <text x="704" y="407" font-size="10" fill="#1d4ed8" text-anchor="start">22,000〜</text>
+                    <text x="704" y="419" font-size="10" fill="#1d4ed8" text-anchor="start">27,500円</text>
+
+                    <!-- legend -->
+                    <g font-size="10" fill="#6b7280">
+                        <rect x="180" y="455" width="14" height="10" rx="3" fill="#a7f3d0" stroke="#059669" stroke-width="1"/>
+                        <text x="200" y="464">個人・小規模帯</text>
+                        <rect x="320" y="455" width="14" height="10" rx="3" fill="#5eead4" stroke="#0d9488" stroke-width="1.2"/>
+                        <text x="340" y="464">未来らぼ</text>
+                        <rect x="420" y="455" width="14" height="10" rx="3" fill="#bfdbfe" stroke="#2563eb" stroke-width="1"/>
+                        <text x="440" y="464">大手系（レンジ）</text>
+                        <circle cx="570" cy="460" r="5" fill="#fbbf24" stroke="#b45309" stroke-width="1"/>
+                        <text x="583" y="464">大手系（単一料金の一例）</text>
+                    </g>
+                </svg>
+            </div>
+
+            <div class="box-mirai">
+                <p class="box-label">【未来らぼの位置づけ】</p>
+                <ul class="dot-list mirai-markers" style="margin-bottom:0;">
+                    <li>単発のお参り代行（14,000〜22,800円）は、個人・小規模帯の上限〜大手系の中位レンジにかかる位置にある。</li>
+                    <li>定期管理清掃（一律12,000円/回）は、今回比較した中で最も低い価格帯に位置し、くらしのマーケットの最安値帯（8,000〜12,000円）にほぼ並ぶ水準。</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- 4 価格比較2 -->
+        <section id="s4" class="section-card">
+            <div class="section-head">
+                <div class="section-bar bar-blue"></div>
+                <h2 class="section-title blue">4. 価格比較②　本格墓石クリーニング帯</h2>
+            </div>
+            <p class="section-intro">未来らぼの墓石クリーニング（スタンダード・スペシャル）を、一般的な墓石クリーニングの相場と比較。横軸は1回あたりの料金（円）。金額は0〜90,000円のスケール。</p>
+
+            <div style="margin: 1.5rem 0;">
+                <svg viewBox="0 0 760 300" xmlns="http://www.w3.org/2000/svg" style="width:100%; height:auto; font-family:'Noto Sans JP','Hiragino Kaku Gothic ProN',sans-serif;">
+                    <text x="0" y="18" font-size="13" font-weight="700" fill="#374151">本格墓石クリーニング　料金レンジ比較（2026年・税込目安）</text>
+
+                    <!-- gridlines -->
+                    <g stroke="#e5e7eb" stroke-width="1">
+                        <line x1="180" y1="45" x2="180" y2="200"/>
+                        <line x1="273" y1="45" x2="273" y2="200"/>
+                        <line x1="367" y1="45" x2="367" y2="200"/>
+                        <line x1="460" y1="45" x2="460" y2="200"/>
+                        <line x1="553" y1="45" x2="553" y2="200"/>
+                        <line x1="647" y1="45" x2="647" y2="200"/>
+                        <line x1="740" y1="45" x2="740" y2="200"/>
+                    </g>
+                    <g font-size="10" fill="#9ca3af" text-anchor="middle">
+                        <text x="180" y="215">0円</text>
+                        <text x="273" y="215">15,000</text>
+                        <text x="367" y="215">30,000</text>
+                        <text x="460" y="215">45,000</text>
+                        <text x="553" y="215">60,000</text>
+                        <text x="647" y="215">75,000</text>
+                        <text x="740" y="215">90,000円</text>
+                    </g>
+
+                    <!-- row0: 未来らぼ スタンダードプラン 22,800-61,300 -->
+                    <text x="170" y="70" font-size="11.5" fill="#0f766e" font-weight="700" text-anchor="end">未来らぼ　スタンダードプラン</text>
+                    <rect x="322" y="58" width="240" height="18" rx="9" fill="#5eead4" stroke="#0d9488" stroke-width="1.5"/>
+                    <text x="572" y="71" font-size="10" fill="#0f766e" text-anchor="start">22,800〜61,300円</text>
+
+                    <!-- row1: 未来らぼ スペシャルプラン 47,000-85,500 -->
+                    <text x="170" y="112" font-size="11.5" fill="#0f766e" font-weight="700" text-anchor="end">未来らぼ　スペシャルプラン</text>
+                    <rect x="472" y="100" width="240" height="18" rx="9" fill="#2dd4bf" stroke="#0f766e" stroke-width="1.5"/>
+                    <text x="722" y="113" font-size="10" fill="#0f766e" text-anchor="start">47,000〜</text>
+                    <text x="722" y="125" font-size="10" fill="#0f766e" text-anchor="start">85,500円</text>
+
+                    <!-- row2: 大手系目安（一般相場） 30,000-80,000 -->
+                    <text x="170" y="154" font-size="11.5" fill="#374151" text-anchor="end">大手系・一般的な相場目安</text>
+                    <rect x="367" y="142" width="311" height="18" rx="9" fill="#bfdbfe" stroke="#2563eb" stroke-width="1.2"/>
+                    <text x="368" y="155" font-size="10" fill="#1d4ed8" text-anchor="start">30,000〜80,000円</text>
+
+                    <!-- row3: 美墓ネット・デラックス等 要見積り note -->
+                    <text x="170" y="188" font-size="11.5" fill="#6b7280" text-anchor="end">未来らぼ デラックスプラン／美墓ネット徹底清掃</text>
+                    <text x="185" y="188" font-size="10.5" fill="#9ca3af">要見積り（金額表記なし・上限は目安レンジを上回る可能性）</text>
+
+                    <!-- legend -->
+                    <g font-size="10" fill="#6b7280">
+                        <rect x="180" y="235" width="14" height="10" rx="3" fill="#5eead4" stroke="#0d9488" stroke-width="1.2"/>
+                        <text x="200" y="244">未来らぼ（スタンダード）</text>
+                        <rect x="360" y="235" width="14" height="10" rx="3" fill="#2dd4bf" stroke="#0f766e" stroke-width="1.2"/>
+                        <text x="380" y="244">未来らぼ（スペシャル）</text>
+                        <rect x="540" y="235" width="14" height="10" rx="3" fill="#bfdbfe" stroke="#2563eb" stroke-width="1"/>
+                        <text x="560" y="244">大手系（一般相場）</text>
+                    </g>
+                </svg>
+            </div>
+
+            <div class="box-mirai">
+                <p class="box-label">【未来らぼの位置づけ】</p>
+                <ul class="dot-list mirai-markers" style="margin-bottom:0;">
+                    <li>スタンダードプランの下限（22,800円・8寸・築10年以内）は、大手系の本格クリーニング相場（30,000〜80,000円）の下限を下回る、比較的手頃な価格設定になっている。</li>
+                    <li>サイズ・築年数が上がるほど大手系のレンジに近づき、スタンダード上限（61,300円）・スペシャル（47,000〜85,500円）は大手系の相場レンジとほぼ重なる。</li>
+                    <li>コーティング・名入れは未来らぼでは個別オプション表記だが、大手系の一部（美墓ネット等）は上位プランに一括で含まれるケースがあり、単純な金額比較だけでなく含まれる内容の確認が必要。</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- 5 大手系事業者 -->
+        <section id="s5" class="section-card">
+            <div class="section-head">
+                <div class="section-bar bar-blue"></div>
+                <h2 class="section-title blue">5. 大手系事業者　料金比較（詳細）</h2>
+            </div>
+
+            <div style="overflow-x:auto;">
+                <table class="data-table">
+                    <thead><tr><th>事業者</th><th>運営母体</th><th>単発料金（税込）</th><th>定期プラン</th><th>備考</th></tr></thead>
+                    <tbody>
+                        <tr><td><strong>きたよ。</strong></td><td>ティーガイア（東証プライム上場）</td><td>27,500円〜<br>（初回22,000円〜）</td><td>年間契約あり（回数に応じ割引）</td><td>1坪までが目安。全国対応。</td></tr>
+                        <tr><td><strong>ダスキン</strong></td><td>ダスキン（上場）</td><td>22,000円<br>（1坪まで）</td><td>年3回：1回18,700円<br>年2回：1回19,800円</td><td>基本料金は墓石・墓誌各1基までが対象。</td></tr>
+                        <tr><td><strong>おそうじ本舗</strong></td><td>フランチャイズ全国1,400店超</td><td>簡易洗浄15,000円〜<br>標準18,000〜19,800円〜</td><td>特急便オプション+3,000円</td><td>3プラン制。大手の中では比較的安め。</td></tr>
+                        <tr><td><strong>くらしのセゾン「墓もりくん」</strong></td><td>クレディセゾングループ</td><td>16,500円<br>（3.3㎡・一般料金）</td><td>—</td><td>セゾン・UCカード会員は割引料金あり。</td></tr>
+                        <tr><td><strong>美墓ネット</strong></td><td>日本香堂（お線香最大手）</td><td>簡易15,000円〜<br>標準22,000円〜<br>（現行サイト表記26,400円〜）</td><td>定期2回：27,000円（1回13,500円）<br>定期4回：53,000円（1回13,250円）</td><td>全国の石材店60社と提携。徹底清掃は要見積り。</td></tr>
+                        <tr><td><strong>H.I.S</strong></td><td>旅行大手</td><td>15,400円〜<br>（東京・神奈川・千葉・埼玉の一例）</td><td>—</td><td>コロナ禍で参入。海外在住者の利用が多い。</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="box-blue">
+                <p class="box-label">【傾向】</p>
+                <ul class="dot-list blue-markers" style="margin-bottom:0;">
+                    <li>大手系の単発料金は概ね<strong>15,000円〜27,500円</strong>のレンジに収まる。</li>
+                    <li>上場企業運営を前面に出しているのは「きたよ。」（ティーガイア）と「ダスキン」の2社で、価格帯もやや高め。</li>
+                    <li>定期契約（年複数回）を組むことで、1回あたりの単価を2,000〜3,000円程度下げている事業者が多い。</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- 6 個人・小規模帯 -->
+        <section id="s6" class="section-card gray-card">
+            <div class="section-head">
+                <div class="section-bar bar-gray"></div>
+                <h2 class="section-title gray">6. くらしのマーケット等　個人・小規模事業者帯</h2>
+            </div>
+
+            <div style="overflow-x:auto;">
+                <table class="data-table">
+                    <thead><tr><th>区分</th><th>料金帯（税込）</th><th>備考</th></tr></thead>
+                    <tbody>
+                        <tr><td>お墓参り代行（簡易・水洗い程度）</td><td>8,000〜12,000円</td><td>くらしのマーケット公式発表による相場。</td></tr>
+                        <tr><td>通常清掃（草取り込み）</td><td>15,000〜22,000円</td><td>1基1坪までを目安とする比較記事の相場。</td></tr>
+                        <tr><td>石塔クリーニング一式（くらしのマーケット出店者）</td><td>15,000〜20,000円</td><td>くらしのマーケット手数料20%控除後の実質収入は10,000〜15,000円程度という業者側の分析あり。</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="box-gray">
+                <p class="box-label">【備考】</p>
+                <p style="color:#374151; font-size:1rem;">くらしのマーケット・ミツモア等のプラットフォームは地域密着の個人・小規模事業者が中心。価格は最安値帯だが、手数料（約20%）が事業者側の実質収入を圧迫するとの指摘もある。</p>
+            </div>
+        </section>
+
+        <!-- 7 料金分析 -->
+        <section id="s7" class="section-card mirai-card">
+            <div class="section-head">
+                <div class="section-bar bar-mirai"></div>
+                <h2 class="section-title mirai">7. 料金分析：値引き率と価格の規則性</h2>
+            </div>
+            <p class="section-intro">未来らぼ自身の料金表を数値として分解すると、単純な相場比較だけでは見えない構造がいくつか見えてくる。</p>
+
+            <p class="sub-heading">お墓参り代行：区画別　単発→定期の値引き率</p>
+            <div class="table-wrap">
+                <table class="data-table mirai-head">
+                    <thead><tr><th>区画</th><th>単発料金</th><th>定期（1回あたり）</th><th>値引き額</th><th>値引き率</th></tr></thead>
+                    <tbody>
+                        <tr><td>第1区画（東京23区）</td><td>14,000円</td><td>12,000円</td><td>▲2,000円</td><td><strong>▲14.3%</strong></td></tr>
+                        <tr><td>第2区画</td><td>16,200円</td><td>12,000円</td><td>▲4,200円</td><td><strong>▲25.9%</strong></td></tr>
+                        <tr><td>第3区画</td><td>19,500円</td><td>12,000円</td><td>▲7,500円</td><td><strong>▲38.5%</strong></td></tr>
+                        <tr><td>第4区画</td><td>22,800円</td><td>12,000円</td><td>▲10,800円</td><td><strong>▲47.4%</strong></td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div style="margin: 1.5rem 0;">
+                <svg viewBox="0 0 760 220" xmlns="http://www.w3.org/2000/svg" style="width:100%; height:auto; font-family:'Noto Sans JP','Hiragino Kaku Gothic ProN',sans-serif;">
+                    <text x="0" y="18" font-size="13" font-weight="700" fill="#374151">区画別　定期契約への値引き率</text>
+
+                    <g stroke="#e5e7eb" stroke-width="1">
+                        <line x1="200" y1="40" x2="200" y2="180"/>
+                        <line x1="320" y1="40" x2="320" y2="180"/>
+                        <line x1="440" y1="40" x2="440" y2="180"/>
+                        <line x1="560" y1="40" x2="560" y2="180"/>
+                        <line x1="680" y1="40" x2="680" y2="180"/>
+                    </g>
+                    <g font-size="10" fill="#9ca3af" text-anchor="middle">
+                        <text x="200" y="195">0%</text>
+                        <text x="320" y="195">12.5%</text>
+                        <text x="440" y="195">25%</text>
+                        <text x="560" y="195">37.5%</text>
+                        <text x="680" y="195">50%</text>
+                    </g>
+
+                    <text x="190" y="63" font-size="11.5" fill="#374151" text-anchor="end">第1区画</text>
+                    <rect x="200" y="52" width="68.6" height="18" rx="9" fill="#99f6e4" stroke="#0d9488" stroke-width="1.2"/>
+                    <text x="278" y="65" font-size="10" fill="#0f766e" text-anchor="start">▲14.3%</text>
+
+                    <text x="190" y="98" font-size="11.5" fill="#374151" text-anchor="end">第2区画</text>
+                    <rect x="200" y="87" width="124.3" height="18" rx="9" fill="#5eead4" stroke="#0d9488" stroke-width="1.2"/>
+                    <text x="334" y="100" font-size="10" fill="#0f766e" text-anchor="start">▲25.9%</text>
+
+                    <text x="190" y="133" font-size="11.5" fill="#374151" text-anchor="end">第3区画</text>
+                    <rect x="200" y="122" width="184.9" height="18" rx="9" fill="#2dd4bf" stroke="#0f766e" stroke-width="1.2"/>
+                    <text x="395" y="135" font-size="10" fill="#0f766e" text-anchor="start">▲38.5%</text>
+
+                    <text x="190" y="168" font-size="11.5" fill="#374151" text-anchor="end">第4区画</text>
+                    <rect x="200" y="157" width="227.5" height="18" rx="9" fill="#14b8a6" stroke="#0f766e" stroke-width="1.2"/>
+                    <text x="438" y="170" font-size="10" fill="#ffffff" text-anchor="start">▲47.4%</text>
+                </svg>
+            </div>
+
+            <div class="box-mirai">
+                <p class="box-label">【分析】</p>
+                <ul class="dot-list mirai-markers" style="margin-bottom:0;">
+                    <li>値引き率は第1区画14.3%から第4区画47.4%まで、区画が遠くなるほど急激に拡大している。</li>
+                    <li>裏を返すと、最も需要が集中しやすい第1区画（東京23区）は定期契約への価格インセンティブが最も弱く、単発利用のまま留まりやすい設計になっている可能性がある。</li>
+                    <li>大手系の定期割引率（ダスキン10〜15%、美墓ネット10〜12%程度）と比べると、未来らぼの第3・第4区画の値引き率（38〜47%）はかなり大きい。遠方区画の定期契約は採算面で圧迫していないか確認する価値がある。</li>
+                </ul>
+            </div>
+
+            <p class="sub-heading">墓石クリーニング：価格の規則性</p>
+            <div class="box-mirai">
+                <p class="box-label">【分析】</p>
+                <p style="color:#374151; font-size:1rem; margin-bottom:0.75rem;">スタンダードプランの料金表を分解すると、サイズが1段階上がるごとも、築年数区分が1段階上がるごとも、どちらも一律<strong>+5,500円</strong>で構成されている（8寸22,800円→9寸28,300円→尺角33,800円…、築10年以内22,800円→11〜20年28,300円→21〜30年33,800円…）。等差数列に近い、非常に規則的な価格設計になっている。</p>
+                <p style="color:#374151; font-size:1rem; margin-bottom:0;">スペシャルプランもおおむね同じ+5,500円刻みだが、公式サイトの料金表内に一部この規則から外れる数値（21〜30年・尺2寸の行で67,000円・52,800円という周辺セルと整合しない表記）が見られる。入力ミスの可能性があるため、価格改定のタイミングで併せて確認しておくと安心。</p>
+            </div>
+        </section>
+
+        <!-- 8 まとめ -->
+        <section id="s8" class="section-card">
+            <div class="section-head">
+                <div class="section-bar bar-green"></div>
+                <h2 class="section-title">8. まとめ・検討ポイント</h2>
+            </div>
+            <ul class="dot-list">
+                <li>低単価帯（個人・小規模／くらしのマーケット等）：<strong>8,000〜20,000円</strong></li>
+                <li>未来らぼ（お参り代行・定期清掃）：<strong>12,000〜22,800円</strong></li>
+                <li>高単価帯（大手系・簡易清掃）：<strong>15,000〜27,500円</strong></li>
+                <li>未来らぼ（墓石クリーニング）：<strong>22,800〜85,500円</strong></li>
+                <li>大手系・本格クリーニング相場：<strong>30,000〜80,000円</strong></li>
+            </ul>
+
+            <div class="box-mirai">
+                <p class="box-label">【未来らぼ全体の位置づけ】</p>
+                <ul class="dot-list mirai-markers" style="margin-bottom:0;">
+                    <li>定期管理清掃（12,000円一律）は最安値帯に近く、リピーター獲得の入口価格として機能していると考えられる。</li>
+                    <li>単発のお参り代行は個人事業者と大手系の中間に位置しており、価格競争力は中程度。</li>
+                    <li>墓石クリーニング（スタンダード）の下限は大手系の相場より抑えめだが、上限は大手系とほぼ同水準まで上がる。プラン間の価格差（スタンダード→スペシャルで倍近くに跳ね上がる区間がある）が大きい点は要検討。</li>
+                </ul>
+            </div>
+
+            <div class="box-green">
+                <p class="box-label">【検討ポイント（たたき台）】</p>
+                <ul class="dot-list" style="margin-bottom:0;">
+                    <li>定期管理清掃の一律12,000円は、区画による料金差をつけている単発料金と比べて値引き幅が区画ごとに異なる（第1区画は▲2,000円、第4区画は▲10,800円）。区画間の割引率をどう設計するか整理の余地がある。</li>
+                    <li>お参り代行の単発料金は、大手系の最安値ライン（15,000円前後）と比べて第1区画（14,000円）がやや下回っている。第1区画のみ意図的に安くしているのか、値上げ余地があるのか検討材料になる。</li>
+                    <li>墓石クリーニングは、スタンダードとスペシャルの間に価格の谷間（スタンダード上限61,300円 → スペシャル下限47,000円、サイズ・築年数次第で逆転もあり得る）がないか、料金表の整合性を確認しておくと良い。</li>
+                </ul>
+            </div>
+        </section>
+
+        <footer class="page-footer">
+            <p>&copy; 2026 Research Notes. お墓の未来・らぼ　価格見直し検討資料</p>
+        </footer>
+    </div>
+</div>
+
+<script>
+    const links = document.querySelectorAll('.sidebar-link');
+    const sections = document.querySelectorAll('section[id]');
+    const blueSections = ['s3', 's4', 's5'];
+    const miraiSections = ['s2', 's7'];
+    const graySections = ['s6'];
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const id = entry.target.getAttribute('id');
+                links.forEach(link => {
+                    link.classList.remove('active', 'active-blue', 'active-mirai', 'active-gray');
+                    if (link.getAttribute('href') === '#' + id) {
+                        if (blueSections.includes(id)) link.classList.add('active-blue');
+                        else if (miraiSections.includes(id)) link.classList.add('active-mirai');
+                        else if (graySections.includes(id)) link.classList.add('active-gray');
+                        else link.classList.add('active');
+                    }
+                });
+            }
+        });
+    }, { threshold: 0.2 });
+    sections.forEach(s => observer.observe(s));
+</script>
+</body>
+</html>
