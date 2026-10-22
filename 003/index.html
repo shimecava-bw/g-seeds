@@ -498,6 +498,24 @@ footer{background:#13222A;color:rgba(255,255,255,.78);padding:56px 0 28px}
 
 /* 資料請求サークル：PC表示のみ位置を上・右へ */
 @media(min-width:641px){.fab{right:48px;bottom:24px}}
+
+/* PROMO-BAR:START 下に常時表示の帯（消すときはこのブロックと、HTMLの PROMO-BAR を削除。サークルの位置は自動で元に戻る） */
+.promo{position:fixed;left:0;right:0;bottom:0;z-index:95;height:64px;display:flex;align-items:center;justify-content:center;gap:18px;background:var(--yellow);border-top:2px solid var(--bd);text-decoration:none;color:var(--ink);font-family:"M PLUS 2","Noto Sans JP",sans-serif}
+.promo .pp{background:var(--coral);color:#fff;font-weight:900;font-size:1.2rem;padding:6px 20px;border-radius:999px;letter-spacing:.04em;white-space:nowrap}
+.promo b{font-weight:900;font-size:1.6rem;white-space:nowrap}
+body:has(.promo){padding-bottom:64px}
+@media(min-width:641px){body:has(.promo) .fab{bottom:88px}}
+@media(max-width:640px){
+ .promo{height:54px;gap:8px}
+ .promo .pp{font-size:.95rem;padding:4px 12px}
+ .promo b{font-size:1.25rem}
+ body:has(.promo){padding-bottom:54px}
+ body:has(.promo) .fab{bottom:66px}
+}
+/* PROMO-BAR:END */
+
+/* お問い合わせ見出し：1行に収まる大きさ（PC） */
+@media(min-width:901px){.contact h2{font-size:clamp(1.9rem,3.7vw,2.95rem)}}
 </style></head><body>
 
 <header class="site">
@@ -593,19 +611,6 @@ footer{background:#13222A;color:rgba(255,255,255,.78);padding:56px 0 28px}
   <div class="ba-arrow"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#1C2A31" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
   <div class="ba-card af"><h3><span class="bd">AFTER</span>導入後</h3><div class="ba-row"><small>対応時間</small><b>24時間365日</b></div><div class="ba-row"><small>対応言語</small><b>15言語で自動対応</b></div><div class="ba-row"><small>人事の質問対応</small><b>AIが仕事を軽減</b></div><div class="ba-row"><small>通訳・翻訳コスト</small><b>AIで大幅削減</b></div><div class="ba-row"><small>退職の予兆</small><b>辞める前に気づける</b></div></div>
  </div>
-</div></section>
-
-<section class="sec soft"><div class="wrap">
- <div class="sec-head"><h2 class="sec-title">退職を<em>1名防ぐ</em>だけで、黒字。</h2>
-  <p class="sec-lead">規模別の年間費用と、外国人社員1名の定着で防げる採用・教育コストの比較です。</p></div>
- <div class="tbl"><table>
-  <tr><th>規模</th><th>年間費用</th><th>1名定着の削減額</th><th>差引効果</th></tr>
-  <tr><td>10名規模</td><td>約48万円<small>/年</small></td><td>50〜80万円</td><td class="g">+2〜32万円</td></tr>
-  <tr><td>30名規模</td><td>約107万円<small>/年</small></td><td>150〜240万円</td><td class="g">+43〜133万円</td></tr>
-  <tr><td>50名規模</td><td>約170万円<small>/年</small></td><td>250〜400万円</td><td class="g">+80〜230万円</td></tr>
- </table></div>
- <p class="note">※ 採用・教育コストは業界推計値です。実際の効果は雇用形態・職種・地域により異なります。</p>
- <p class="roi-msg">たった1名の早期離職を防ぐだけで、導入費用を回収できます。</p>
 </div></section>
 
 <section class="sec" id="pricing"><div class="wrap">
@@ -704,7 +709,7 @@ footer{background:#13222A;color:rgba(255,255,255,.78);padding:56px 0 28px}
 
 <section class="sec contact" id="contact"><div class="wrap contact-grid">
  <div>
-  <h2>まずは、無料で試してみませんか？</h2>
+  <h2><span style="display:inline-block">まずは、無料で</span><span style="display:inline-block">試してみませんか？</span></h2>
   <p class="lead">初期費用ゼロ・最低利用期間なし。まずは3か月間の無料トライアルで、外国人社員のフォローにかかる変化を実際にご体験ください。</p>
   <div class="cinfo">
    <div><i>☎</i><span><small>お電話でのご相談</small><b>03-6671-1777</b></span></div>
@@ -731,5 +736,8 @@ footer{background:#13222A;color:rgba(255,255,255,.78);padding:56px 0 28px}
  </div>
  <div class="copy"><span>© 2026 やさしい日本語AI. All Rights Reserved.</span><span>Powered by やさしい日本語 AI</span></div>
 </div></footer>
+<!-- PROMO-BAR:START（消すときは START〜END と、CSSの PROMO-BAR ブロックを削除） -->
+<a class="promo" href="#contact"><span class="pp">先着10社限定</span><b>3か月無料トライアル</b></a>
+<!-- PROMO-BAR:END -->
 <a class="fab" href="#contact" aria-label="資料請求"><svg class="ring" viewBox="0 0 120 120" aria-hidden="true"><defs><path id="fabp" d="M60,60 m-44,0 a44,44 0 1,1 88,0 a44,44 0 1,1 -88,0"/></defs><text><textPath href="#fabp" textLength="272" lengthAdjust="spacing">やさしい日本語AI・やさしい日本語AI・</textPath></text></svg><b>資料<br>請求</b></a>
 </body></html>
